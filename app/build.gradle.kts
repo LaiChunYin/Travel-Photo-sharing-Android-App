@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,4 +52,20 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.google.code.gson:gson:2.10.1")
+
+    //Firebase BOM for automatically matching various service compatibility
+    implementation("com.google.firebase:firebase-bom:32.6.0")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
+
+    // needed for background tasks
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+
+    // Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.6.2")
+
+    // used for getting location (FusedLocationProviderClient)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 }
