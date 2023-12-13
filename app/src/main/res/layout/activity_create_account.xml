@@ -7,6 +7,7 @@
     android:gravity="center_horizontal"
     android:background="#FFFFFF">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,29 +45,6 @@
         android:background="@drawable/edit_text_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select user type:"
-        android:layout_marginBottom="8dp"/>
-
-    <RadioGroup
-        android:id="@+id/user_type_radio_gp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tenant"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Landlord"/>
-    </RadioGroup>
 
     <Button
         android:id="@+id/create_account_btn"

@@ -13,6 +13,8 @@
         android:background="@android:color/white"
         android:id="@+id/addPostParentLayout">
 
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,16 +57,7 @@
 <!--            android:padding="12dp"-->
 <!--            android:layout_marginBottom="16dp"/>-->
 
-        <!-- Type EditText -->
-        <EditText
-            android:id="@+id/type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Type"
-            android:inputType="text"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+
 
         <!-- Author Name EditText -->
         <EditText
@@ -109,6 +102,25 @@
             android:background="@drawable/edit_text_background"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
+
+        <!-- Category Dropdown Spinner -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:padding="12dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:popupBackground="@android:color/white"
+            android:layout_marginBottom="16dp"
+            android:entries="@array/category_options" />
+
 
         <!-- Number of Bedrooms EditText -->
 <!--        <EditText-->
