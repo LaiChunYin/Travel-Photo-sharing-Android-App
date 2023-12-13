@@ -3,15 +3,18 @@ package com.example.travel_photo_sharing_app.screens
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.RadioButton
+import androidx.lifecycle.lifecycleScope
 import com.example.travel_photo_sharing_app.databinding.ActivityCreateAccountBinding
 import com.example.travel_photo_sharing_app.models.User
+import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.saveDataToSharedPref
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class CreateAccountActivity : LoginActivity() {
     private lateinit var binding: ActivityCreateAccountBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var authenticationHelper: AuthenticationHelper
     override val tag = "Create Account"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +24,16 @@ class CreateAccountActivity : LoginActivity() {
 
         binding.createAccountBtn.setOnClickListener {
             val username: String = this.binding.usernameInput.text.toString()
+            val email: String = this.binding.emailInput.text.toString()
             val password: String = this.binding.passwordInput.text.toString()
             val confirmPassword: String = this.binding.confirmPasswordInput.text.toString()
-            val checkBtn: RadioButton? = findViewById<RadioButton>(this.binding.userTypeRadioGp.checkedRadioButtonId)
-            val userType = checkBtn?.text.toString()
+//            val checkBtn: RadioButton? = findViewById<RadioButton>(this.binding.userTypeRadioGp.checkedRadioButtonId)
+//            val userType = checkBtn?.text.toString()
 
             // configure shared preferences
             this.sharedPreferences = getSharedPreferences("USERS", MODE_PRIVATE)
+
+            this.authenticationHelper = AuthenticationHelper(this)
 
             // check if the username has already been used
             val userJson = sharedPreferences.getString(username, "")
@@ -38,10 +44,14 @@ class CreateAccountActivity : LoginActivity() {
                 Snackbar.make(binding.root, "Please enter a user name", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            if(userType == "" || userType == "null" || userType == null) {
-                Snackbar.make(binding.root, "Please select a user type", Snackbar.LENGTH_LONG).show()
+            if(email == "") {
+                Snackbar.make(binding.root, "Please enter an email address", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+//            if(userType == "" || userType == "null" || userType == null) {
+//                Snackbar.make(binding.root, "Please select a user type", Snackbar.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
             if(password == "" || confirmPassword == "") {
                 Snackbar.make(binding.root, "Please enter a password and the confirm password", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -58,17 +68,22 @@ class CreateAccountActivity : LoginActivity() {
                 return@setOnClickListener
             }
 
-            signup(username, password, userType)
+//            signup(username, password, userType)
+            val newUser = User(email, password, username)
+
+            lifecycleScope.launch {
+                authenticationHelper.signUp(newUser)
+            }
         }
     }
 
-    private fun signup(username: String, password: String, userType: String){
-        Log.i(tag, "creating account $username, $password $userType")
-//        val newUser = User(username, password, userType)
-        val newUser = User(username, password, userType, mutableListOf(), "placeholder", "placeholder")
-
-        saveDataToSharedPref(this, "USERS", username, newUser, true)
-
-        login(newUser)
-    }
+//    private fun signup(username: String, password: String, userType: String){
+//        Log.i(tag, "creating account $username, $password $userType")
+////        val newUser = User(username, password, userType)
+//        val newUser = User(username, password, userType, mutableListOf(), "placeholder", "placeholder")
+//
+//        saveDataToSharedPref(this, "USERS", username, newUser, true)
+//
+//        login(newUser)
+//    }
 }

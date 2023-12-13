@@ -40,9 +40,11 @@ class AddPostActivity : AppCompatActivity() {
 //            binding.city.setText(selectedPost.city)
 //            binding.postalCode.setText(selectedPost.postalCode)
             binding.type.setText(selectedPost.type)
-            binding.authorName.setText(selectedPost.author.username)
-            binding.authorEmail.setText(selectedPost.author.email)
-            binding.authorPhone.setText(selectedPost.author.phone)
+//            binding.authorName.setText(selectedPost.author.username)
+//            binding.authorEmail.setText(selectedPost.author.email)
+            binding.authorEmail.setText(selectedPost.authorEmail)
+
+//            binding.authorPhone.setText(selectedPost.author.phone)
             binding.description.setText(selectedPost.description)
 //            binding.bedrooms.setText(selectedPost.numOfBedrooms.toString())
 //            binding.kitchens.setText(selectedPost.numOfKitchens.toString())
@@ -73,12 +75,14 @@ class AddPostActivity : AppCompatActivity() {
 
     private fun saveData() {
         var address: String? = this.binding.address.text.toString()
+        var latitude: Double? = this.binding.longitude.toString().toDouble()
+        var longitude: Double? = this.binding.latitude.text.toString().toDouble()
         var type: String? = this.binding.type.text.toString()
 //        var city: String? = this.binding.city.text.toString()
 //        var postalCode: String? = this.binding.postalCode.text.toString()
-        var authorName: String? = this.binding.authorName.text.toString()
+//        var authorName: String? = this.binding.authorName.text.toString()
         var authorEmail: String? = this.binding.authorEmail.text.toString()
-        var authorPhone: String? = this.binding.authorPhone.text.toString()
+//        var authorPhone: String? = this.binding.authorPhone.text.toString()
         var desc: String? = this.binding.description.text.toString()
 //        var bedrooms: Int? = if(this.binding.bedrooms.text.toString() != "") this.binding.bedrooms.text.toString().toInt() else null
 //        var kitchens: Int? = if(this.binding.kitchens.text.toString() != "") this.binding.kitchens.text.toString().toInt() else null
@@ -89,6 +93,14 @@ class AddPostActivity : AppCompatActivity() {
         var hasEmptyField = false
         if (address.isNullOrEmpty()) {
             this.binding.address.setError("Address cannot be empty")
+            hasEmptyField = true
+        }
+        if (latitude == null || latitude.isNaN()) {
+            this.binding.latitude.setError("Latitude cannot be empty")
+            hasEmptyField = true
+        }
+        if (longitude == null || longitude.isNaN()) {
+            this.binding.longitude.setError("Longitude cannot be empty")
             hasEmptyField = true
         }
         if (type.isNullOrEmpty()) {
@@ -103,18 +115,18 @@ class AddPostActivity : AppCompatActivity() {
 //            this.binding.postalCode.setError("Postal code cannot be empty")
 //            hasEmptyField = true
 //        }
-        if (authorName.isNullOrEmpty()) {
-            this.binding.authorName.setError("Author name cannot be empty")
-            hasEmptyField = true
-        }
-        if (authorPhone.isNullOrEmpty()) {
-            this.binding.authorPhone.setError("Author phone cannot be empty")
-            hasEmptyField = true
-        }
-        if (authorEmail.isNullOrEmpty()) {
-            this.binding.authorEmail.setError("Author email cannot be empty")
-            hasEmptyField = true
-        }
+//        if (authorName.isNullOrEmpty()) {
+//            this.binding.authorName.setError("Author name cannot be empty")
+//            hasEmptyField = true
+//        }
+//        if (authorPhone.isNullOrEmpty()) {
+//            this.binding.authorPhone.setError("Author phone cannot be empty")
+//            hasEmptyField = true
+//        }
+//        if (authorEmail.isNullOrEmpty()) {
+//            this.binding.authorEmail.setError("Author email cannot be empty")
+//            hasEmptyField = true
+//        }
         if (desc.isNullOrEmpty()) {
             this.binding.description.setError("Description cannot be empty")
             hasEmptyField = true
@@ -137,7 +149,8 @@ class AddPostActivity : AppCompatActivity() {
         }
 
 //        val author = User(authorName!!, authorEmail!!, authorPhone!!)
-        val author = User(authorName!!, authorEmail!!, "placeholder", mutableListOf(), "placeholder", authorPhone!!)
+//        val author = User(authorName!!, authorEmail!!, "placeholder", mutableListOf(), "placeholder", authorPhone!!)
+//        val author = User(authorEmail!!, )
 
         val selectedPost = intent.getSerializableExtra("POST_DATA") as Post?
         val index = intent.getIntExtra("INDEX", -1)
@@ -150,12 +163,15 @@ class AddPostActivity : AppCompatActivity() {
 //                city!!,
 //                postalCode!!,
                 type!!,
-                author,
+//                author,
+                authorEmail!!,
                 desc!!,
 //                bedrooms!!,
 //                kitchens!!,
 //                bathrooms!!,
-                visibleToGuest!!
+                visibleToGuest!!,
+                latitude!!,
+                longitude!!,
             )
 
 //            if(checkDuplicatedPost(postToEdit, this)){
@@ -167,11 +183,12 @@ class AddPostActivity : AppCompatActivity() {
         // create new post
         else {
 //            var postToAdd = Post(address!!, city!!, postalCode!!, type!!, author, desc!!, bedrooms!!, kitchens!!, bathrooms!!, availableForRent!!)
-            var postToAdd = Post(address!!, type!!, author, desc!!, visibleToGuest!!)
-            if(checkDuplicatedPost(postToAdd, this)){
-                Snackbar.make(binding.addPostParentLayout, "Post already exist!!", Snackbar.LENGTH_LONG).show()
-                return
-            }
+//            var postToAdd = Post(address!!, type!!, author, desc!!, visibleToGuest!!)
+            var postToAdd = Post(address!!, type!!, authorEmail!!, desc!!, visibleToGuest!!, latitude!!, longitude!!)
+//            if(checkDuplicatedPost(postToAdd, this)){
+//                Snackbar.make(binding.addPostParentLayout, "Post already exist!!", Snackbar.LENGTH_LONG).show()
+//                return
+//            }
             savedPosts.add(postToAdd)
         }
         saveDataToSharedPref(this, "POSTS", loggedInUserName, savedPosts, true)

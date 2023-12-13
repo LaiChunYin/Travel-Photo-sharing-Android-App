@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_layout"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/menu_toolbar"
@@ -19,21 +20,21 @@
         android:id="@+id/searchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="Enter city, post ID, or address"
         android:inputType="text"
-        android:background="@drawable/rounded_edittext"
-        android:padding="12dp"
-        android:layout_margin="16dp"/>
+        android:padding="12dp" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:background="@color/button_color"
-        android:textColor="@android:color/white"
         android:layout_margin="16dp"
-        android:padding="12dp"/>
+        android:background="@color/button_color"
+        android:padding="12dp"
+        android:text="Search"
+        android:textColor="@android:color/white" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -43,84 +44,125 @@
 
         <LinearLayout
             android:id="@+id/linear_category"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <!-- Condo Category -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center_horizontal">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/condo_image"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/condo"
-                    />
+                    android:src="@drawable/condo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Condo"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_marginTop="4dp"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center_horizontal">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/house_image"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/house"
-                    />
+                    android:src="@drawable/house" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="House"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_marginTop="4dp"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </LinearLayout>
 
             <!-- Apartment Category -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center_horizontal">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/apartment_image"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/apartment"
-                     />
+                    android:src="@drawable/apartment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Apartment"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_marginTop="4dp"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </LinearLayout>
 
         </LinearLayout>
     </HorizontalScrollView>
+
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="right">-->
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/view_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        app:checkedButton="@id/list_view_btn"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/list_view_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_blue"
+            android:text="List" />
+
+        <Button
+            android:id="@+id/map_view_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_grey"
+            android:text="Map" />
+
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+    <!--    </LinearLayout>-->
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map_view"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postsRecyclerView"
@@ -128,6 +170,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="16dp"/>
+        android:padding="16dp" />
 
 </LinearLayout>

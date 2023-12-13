@@ -14,9 +14,9 @@ class MyPostAdapter(
     private val postList:MutableList<Post>,
     private val rowClickHandler: (Int) -> Unit,
     private val deleteBtnClickHandler: (Int) -> Unit,
-    private val editBtnClickHandler: (Int) -> Unit) : RecyclerView.Adapter<MyPostAdapter.LandlordPostViewHolder>() {
+    private val editBtnClickHandler: (Int) -> Unit) : RecyclerView.Adapter<MyPostAdapter.MyPostViewHolder>() {
 
-    inner class LandlordPostViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
+    inner class MyPostViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
         init {
             itemView.setOnClickListener {
                 rowClickHandler(adapterPosition)
@@ -31,16 +31,16 @@ class MyPostAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LandlordPostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_my_post, parent, false)
-        return LandlordPostViewHolder(view)
+        return MyPostViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return postList.size
     }
 
-    override fun onBindViewHolder(holder: LandlordPostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyPostViewHolder, position: Int) {
 
         val currPost: Post = postList.get(position)
 

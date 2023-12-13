@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.travel_photo_sharing_app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -54,7 +54,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     //Firebase BOM for automatically matching various service compatibility
-    implementation("com.google.firebase:firebase-bom:32.6.0")
+//    implementation("com.google.firebase:firebase-bom:32.6.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
 
@@ -68,4 +69,5 @@ dependencies {
 
     // used for getting location (FusedLocationProviderClient)
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

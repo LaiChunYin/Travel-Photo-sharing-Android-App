@@ -33,7 +33,27 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
-<!--        &lt;!&ndash; City EditText &ndash;&gt;-->
+        <EditText
+            android:id="@+id/latitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="latitude"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="longitude"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!--        &lt;!&ndash; City EditText &ndash;&gt;-->
 <!--        <EditText-->
 <!--            android:id="@+id/city"-->
 <!--            android:layout_width="match_parent"-->
@@ -67,15 +87,15 @@
             android:layout_marginBottom="16dp"/>
 
         <!-- Author Name EditText -->
-        <EditText
-            android:id="@+id/author_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Author name"
-            android:inputType="textPersonName"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/author_name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Author name"-->
+<!--            android:inputType="textPersonName"-->
+<!--            android:background="@drawable/edit_text_background"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginBottom="16dp"/>-->
 
         <!-- Author Email EditText -->
         <EditText
@@ -89,15 +109,15 @@
             android:layout_marginBottom="16dp"/>
 
         <!-- Author Phone Number EditText -->
-        <EditText
-            android:id="@+id/author_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Author Phone Number"
-            android:inputType="phone"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/author_phone"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Author Phone Number"-->
+<!--            android:inputType="phone"-->
+<!--            android:background="@drawable/edit_text_background"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginBottom="16dp"/>-->
 
         <!-- Description EditText -->
         <EditText

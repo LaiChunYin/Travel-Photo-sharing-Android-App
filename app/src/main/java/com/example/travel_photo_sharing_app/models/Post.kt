@@ -1,21 +1,55 @@
 package com.example.travel_photo_sharing_app.models
 
+import android.util.Log
+import com.google.firebase.firestore.DocumentSnapshot
 import java.io.Serializable
+import java.time.LocalDateTime
 
 class Post(
     val address: String,
     val type: String,
-    val author: User,
+//    val author: User,
+    val authorEmail: String,
     val description: String,
     val visibleToGuest: Boolean,
-    val imageUrl: String? = null
+    val latitude: Double,
+    val longitude: Double,
+    val imageUrl: String? = null,
+    val createdAt: String = LocalDateTime.now().toString(),
+    val idFromDb: String? = null
 ): Serializable {
+
+    constructor(document: DocumentSnapshot): this(
+        document.data!!["address"] as String,
+        document.data!!["type"] as String,
+        document.data!!["authorEmail"] as String,
+        document.data!!["description"] as String,
+        document.data!!["visibleToGuest"] as Boolean,
+        document.data!!["latitude"].toString().toDouble(),
+        document.data!!["longitude"].toString().toDouble(),
+        document.data!!["imageUrl"] as String,
+        document.data!!["createdAt"] as String,
+        document.id!!
+//        document["address"] as String,
+//        document["type"] as String,
+//        document["authorEmail"] as String,
+//        document["description"] as String,
+//        document["visibleToGuest"] as Boolean,
+//        document["latitude"] as Double,
+//        document["longitude"] as Double,
+//        document["imageUrl"] as String,
+//        document["createdAt"] as String
+    )
+    {
+        Log.d("Post", "using constructor ${this}")
+    }
     fun matchesQuery(query: String): Boolean {
         val lowerCaseQuery = query.lowercase()
 
         val matchFound = type.lowercase().contains(lowerCaseQuery) ||
                 description.lowercase().contains(lowerCaseQuery) ||
-                author.username.lowercase().contains(lowerCaseQuery) ||
+//                author.username.lowercase().contains(lowerCaseQuery) ||
+                authorEmail.lowercase().contains(lowerCaseQuery) ||
                 address.lowercase().contains(lowerCaseQuery) ||
                 matchesNumericQuery(lowerCaseQuery)
 
@@ -23,7 +57,7 @@ class Post(
     }
 
     override fun toString(): String {
-        return "Post is $address, $type, $description, $imageUrl"
+        return "Post(${idFromDb}) is $address, $type, $description, $imageUrl"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -42,5 +76,20 @@ class Post(
 //                numOfBedrooms == queryAsNumber ||
 //                numOfKitchens == queryAsNumber ||
 //                numOfBathrooms == queryAsNumber)
+    }
+    fun toHashMap(): HashMap<String, Any?>{
+        val result = HashMap<String, Any?>()
+
+        result["address"] = address
+        result["type"] = type
+        result["authorEmail"] = authorEmail
+        result["description"] = description
+        result["visibleToGuest"] = visibleToGuest
+        result["latitude"] = latitude
+        result["longitude"] = longitude
+        result["imageUrl"] = imageUrl
+        result["createdAt"] = createdAt
+
+        return result
     }
 }
