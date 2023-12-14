@@ -113,11 +113,12 @@
 
         <!-- Public Post Switch -->
         <!-- Category Dropdown Spinner -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
             android:padding="12dp"
+            android:text="Category"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <Spinner

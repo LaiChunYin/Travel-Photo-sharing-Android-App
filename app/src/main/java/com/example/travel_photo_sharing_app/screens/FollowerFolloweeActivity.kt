@@ -19,15 +19,11 @@ import kotlinx.coroutines.launch
 class FollowerFolloweeActivity : MainActivity() {
     private lateinit var binding: ActivityFollowerFolloweeBinding
     private lateinit var followerFolloweeAdapter: FollowerFolloweeAdapter
-//    private lateinit var sharedPreferences: SharedPreferences
-//    private lateinit var prefEditor: SharedPreferences.Editor
     private var usersToBeDisplayed: MutableList<User> = mutableListOf()
     private var allFollowers: MutableList<User> = mutableListOf()
     private var allFollowees: MutableList<User> = mutableListOf()
     private var followers: MutableList<User> = mutableListOf()
     private var followees: MutableList<User> = mutableListOf()
-    //    private var loggedInUserName: String = ""
-//    private var loggedInUser: User? = null
     val userRepository = UserRepository()
     private var loggedInUser: User? = null
     private lateinit var followerAdapter: FollowerFolloweeAdapter
@@ -39,9 +35,6 @@ class FollowerFolloweeActivity : MainActivity() {
         binding = ActivityFollowerFolloweeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(this.binding.menuToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "Followers/Followees List"
 
         //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->

@@ -74,15 +74,15 @@ class PostDetailActivity : AppCompatActivity() {
 //                val res = resources.getIdentifier(imageName, "drawable", this.packageName)
 //                this.binding.postImage.setImageResource(res)
 
-                    val image = post.imageUrl ?: "default_image"
-                    if(image == "default_image"){
-                        val res = resources.getIdentifier(image, "drawable", this@PostDetailActivity.packageName)
-                        binding.postImage.setImageResource(res)
-                    }
-                    else{
-                        val imgBitmap: Bitmap = CameraImageHelper.base64ToBitmap(image)
-                        binding.postImage.setImageBitmap(imgBitmap)
-                    }
+            val image = post.imageUrl ?: "default_image"
+            if(image == "default_image"){
+                val res = resources.getIdentifier(image, "drawable", this@PostDetailActivity.packageName)
+                binding.postImage.setImageResource(res)
+            }
+            else{
+                val imgBitmap: Bitmap = CameraImageHelper.base64ToBitmap(image)
+                binding.postImage.setImageBitmap(imgBitmap)
+            }
                 }
 
                 val authorEmail = binding.authorEmail.text.toString()
