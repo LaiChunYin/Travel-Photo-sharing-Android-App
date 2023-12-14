@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#d3d3d3</color>
     <color name="light_blue">#33ECFF</color>
+    <color name="light_orange">#FFA500</color>
     <color name="button_color">#6F4C5B</color>
     <color name="not_available_color">#F44336</color>
     <color name="available_color">#4CAF50</color>

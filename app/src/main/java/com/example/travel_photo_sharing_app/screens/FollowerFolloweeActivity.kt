@@ -1,5 +1,6 @@
 package com.example.travel_photo_sharing_app.screens;
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -71,7 +72,7 @@ class FollowerFolloweeActivity : MainActivity() {
 
 
         binding.followeeBtn.setOnClickListener{
-            binding.followeeBtn.setBackgroundColor(getColor(R.color.light_blue))
+            binding.followeeBtn.setBackgroundColor(getColor(R.color.light_orange))
             binding.followerBtn.setBackgroundColor(getColor(R.color.light_grey))
             binding.followeeRv.visibility = View.VISIBLE
             binding.followerRv.visibility = View.GONE
@@ -79,7 +80,7 @@ class FollowerFolloweeActivity : MainActivity() {
 
         binding.followerBtn.setOnClickListener{
             binding.followeeBtn.setBackgroundColor(getColor(R.color.light_grey))
-            binding.followerBtn.setBackgroundColor(getColor(R.color.light_blue))
+            binding.followerBtn.setBackgroundColor(getColor(R.color.light_orange))
             binding.followeeRv.visibility = View.GONE
             binding.followerRv.visibility = View.VISIBLE
         }
