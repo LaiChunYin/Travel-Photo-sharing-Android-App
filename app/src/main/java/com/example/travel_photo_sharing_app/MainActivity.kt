@@ -2,6 +2,7 @@ package com.example.travel_photo_sharing_app
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -95,16 +96,19 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d(tag, "view is ${view}")
             Log.d(tag, "view clicked ${toggleButton}, ${checkedId}, ${isChecked}")
             if(view == "List"){
-                binding.listViewBtn.setBackgroundColor(getColor(R.color.light_blue))
                 binding.mapViewBtn.setBackgroundColor(getColor(R.color.light_grey))
+                binding.listViewBtn.setBackgroundColor(Color.parseColor("#FFA500"))
 
+
+//                binding.tvRecommendedForYou.visibility = View.VISIBLE
                 binding.postsRecyclerView.visibility = View.VISIBLE
                 mapFragment.view?.visibility = View.GONE
             }
             else if(view == "Map"){
                 binding.listViewBtn.setBackgroundColor(getColor(R.color.light_grey))
-                binding.mapViewBtn.setBackgroundColor(getColor(R.color.light_blue))
+                binding.mapViewBtn.setBackgroundColor(Color.parseColor("#FFA500"));
 
+//                binding.tvRecommendedForYou.visibility = View.GONE
                 binding.postsRecyclerView.visibility = View.GONE
                 mapFragment.view?.visibility = View.VISIBLE
             }
