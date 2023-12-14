@@ -54,7 +54,7 @@ class PostDetailActivity : AppCompatActivity() {
             // Set the availability tag
             with(binding.postAvailabilityTag) {
                 text = if (post.visibleToGuest) {
-                    getString(R.string.available) // "Available" string resource
+                    post.type.toString()// "Available" string resource
                 } else {
                     getString(R.string.not_available) // "Not Available" string resource
                 }
