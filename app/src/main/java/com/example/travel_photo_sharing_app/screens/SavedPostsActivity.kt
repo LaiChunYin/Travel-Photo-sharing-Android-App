@@ -93,7 +93,10 @@ class SavedPostsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             for(postId in loggedInUser!!.savedPosts){
-                savedPosts.add(postRepository.getPostById(postId)!!)
+                val post = postRepository.getPostById(postId)
+                if(post != null){
+                    savedPosts.add(post)
+                }
             }
             adapter.notifyDataSetChanged()
         }
