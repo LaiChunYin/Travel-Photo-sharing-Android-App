@@ -27,7 +27,7 @@ import com.example.travel_photo_sharing_app.utils.sharedPreferences
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser: User?, private val showShortlistOnly: Boolean, context: Context) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?, private val showShortlistOnly: Boolean, context: Context) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 //class PostAdapter(private var posts: MutableList<Post>, private var loggedInUserName: String, private val showShortlistOnly: Boolean) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 //class PostAdapter(private var posts: MutableList<Post>, private var loggedInUserEmail: String, private val showShortlistOnly: Boolean) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 //    private var loggedInUser: User? = null

@@ -154,6 +154,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             loggedInUser = user
+            postAdapter.loggedInUser = loggedInUser
         }
         allPosts.clear()
 //        allPosts = initializePosts(this)
