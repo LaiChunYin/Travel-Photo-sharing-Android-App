@@ -56,6 +56,7 @@ class MyPostsActivity : MainActivity() {
 
         adapter = MyPostAdapter(
             datasource,
+            this@MyPostsActivity,
             { pos -> rowClicked(pos) },
             { pos -> deletePost(pos) },
             { pos -> editClicked(pos)}
