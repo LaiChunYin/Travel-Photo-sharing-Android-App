@@ -1,117 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="6dp"
+    card_view:cardUseCompatPadding="true">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/post_card"
+    <TextView
+        android:id="@+id/post_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
-        card_view:cardUseCompatPadding="true">
-
-        <TextView
-            android:id="@+id/post_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/post_author"
+                android:text="author"
+                android:gravity="left"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/post_type"
+                android:text="type of post"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/travel_1"
+        android:adjustViewBounds="true" />
+
+        <TextView
+            android:id="@+id/post_title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:text="Bali, Indonesia"
+            android:textColor="@color/black" />
 
-            <!-- ImageView for post image -->
+        <TextView
+            android:id="@+id/post_date_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="May 23, 2022"
+            android:textSize="14sp"
+            android:textColor="#FF0000" />
+
+        <TextView
+            android:id="@+id/post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="description here "
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="end">
+
             <ImageView
-                android:id="@+id/post_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop" />
-
-            <!-- Availability Tag -->
-            <TextView
-                android:id="@+id/post_availability_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="4dp"
-                android:text="Available"
-                android:textSize="12sp"
-                android:textColor="@color/black" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="100">
-                    <!-- TextView for post title -->
-                    <TextView
-                        android:id="@+id/post_title_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textSize="18sp"
-                        android:text="post Title" />
-
-                    <TextView
-                        android:id="@+id/post_description_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="post Description" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/short_list_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add To List"
-                    android:visibility="gone"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/remove_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Remove From List"
-                    android:visibility="gone"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-            <!-- TextView for post address -->
-            <TextView
-                android:id="@+id/post_address_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="18sp"
-                android:text="post Address" />
-
-            <!-- TextView for post city and postal code -->
-            <TextView
-                android:id="@+id/post_city_postal_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="City, Postal Code" />
+                android:id="@+id/like_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_star"
+            android:layout_marginEnd="8dp"/>
 
 
         </LinearLayout>
 
+    </LinearLayout>
 
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

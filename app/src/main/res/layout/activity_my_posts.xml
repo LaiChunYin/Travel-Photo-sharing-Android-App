@@ -12,14 +12,27 @@
         android:id="@+id/menu_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFA726"
+        android:background="#673AB7"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:text="My Posts"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvItems"
+        android:id="@+id/shortlist_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        tools:listitem="@layout/item_my_post" />
 
     <Button
         android:id="@+id/add_post_btn"
@@ -33,7 +46,8 @@
         android:id="@+id/return_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:text="Return"/>
+        android:layout_margin="30dp"
+        android:text="Return"
+        />
 
 </LinearLayout>

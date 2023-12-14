@@ -86,7 +86,7 @@
             android:background="@drawable/edit_text_background"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
-        
+
         <!-- Description EditText -->
         <EditText
             android:id="@+id/description"
@@ -99,6 +99,24 @@
             android:layout_marginBottom="16dp"/>
 
         <!-- Public Post Switch -->
+        <!-- Category Dropdown Spinner -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:padding="12dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:popupBackground="@android:color/white"
+            android:layout_marginBottom="16dp"
+            android:entries="@array/category_options" />
+
         <Switch
             android:id="@+id/visible_to_guest"
             android:layout_width="match_parent"
