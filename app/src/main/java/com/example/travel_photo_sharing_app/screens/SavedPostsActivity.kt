@@ -19,23 +19,23 @@ class SavedPostsActivity : AppCompatActivity() {
     private var loggedInUser: User? = null
     private val tag = "Shortlist"
     private val postRepository = PostRepository()
+    private lateinit var adapter: PostAdapter
+    private val savedPosts :MutableList<Post> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySavedPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//---------------------------------    ---------     - ----- - - - -- - - removing menu item to solve duplicate page problem
-//        setSupportActionBar(this.binding.menuToolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(true)
-//---------------------------------    ---------     - ----- - - - -- - - removing menu item to solve duplicate page problem
+        setSupportActionBar(this.binding.menuToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
 
 
 
 
-//        binding.returnBtn.setOnClickListener {
-//            finish()
-//        }
+        binding.returnBtn.setOnClickListener {
+            finish()
+        }
 
 //        loggedInUser = getLoggedInUser(this)
 //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
@@ -61,14 +61,14 @@ class SavedPostsActivity : AppCompatActivity() {
 //        }
 
         lifecycleScope.launch {
-            if(loggedInUser != null){
-                var savedPosts :MutableList<Post> = mutableListOf()
-                for(postId in loggedInUser!!.savedPosts){
-                    savedPosts.add(postRepository.getPostById(postId)!!)
-                }
+//            if(loggedInUser != null){
+//                var savedPosts :MutableList<Post> = mutableListOf()
+//                for(postId in loggedInUser!!.savedPosts){
+//                    savedPosts.add(postRepository.getPostById(postId)!!)
+//                }
 
 //            var adapter = PostAdapter(savedPosts, loggedInUser?.username ?: "", true)
-                var adapter = PostAdapter(savedPosts, loggedInUser, true, this@SavedPostsActivity)
+                adapter = PostAdapter(savedPosts, loggedInUser, true, this@SavedPostsActivity)
                 this@SavedPostsActivity.binding.shortlistRv.adapter = adapter
                 this@SavedPostsActivity.binding.shortlistRv.layoutManager = LinearLayoutManager(this@SavedPostsActivity)
                 this@SavedPostsActivity.binding.shortlistRv.addItemDecoration(
@@ -77,7 +77,25 @@ class SavedPostsActivity : AppCompatActivity() {
                         LinearLayoutManager.VERTICAL
                     )
                 )
+
+//            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        var savedPosts :MutableList<Post> = mutableListOf()
+
+        AuthenticationHelper.instance!!.loggedInUser.observe(this){user ->
+            loggedInUser = user
+        }
+
+        lifecycleScope.launch {
+            for(postId in loggedInUser!!.savedPosts){
+                savedPosts.add(postRepository.getPostById(postId)!!)
             }
+            adapter.notifyDataSetChanged()
         }
     }
 }
