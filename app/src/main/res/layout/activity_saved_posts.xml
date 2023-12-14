@@ -31,12 +31,12 @@
         android:layout_weight="1"
         tools:listitem="@layout/item_post" />
 
-    <Button
-        android:id="@+id/return_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:text="Return"/>
+<!--    <Button-->
+<!--        android:id="@+id/return_btn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="30dp"-->
+<!--        android:text="Return"/>-->
 
 
 </LinearLayout>

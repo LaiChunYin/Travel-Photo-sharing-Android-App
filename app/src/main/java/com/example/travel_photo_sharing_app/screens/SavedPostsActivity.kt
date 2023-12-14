@@ -29,9 +29,9 @@ class SavedPostsActivity : AppCompatActivity() {
         setSupportActionBar(this.binding.menuToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
 
-        binding.returnBtn.setOnClickListener {
-            finish()
-        }
+//        binding.returnBtn.setOnClickListener {
+//            finish()
+//        }
 
         AuthenticationHelper.instance!!.loggedInUser.observe(this){user ->
             loggedInUser = user

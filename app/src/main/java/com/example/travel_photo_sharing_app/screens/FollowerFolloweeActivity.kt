@@ -34,6 +34,10 @@ class FollowerFolloweeActivity : MainActivity() {
         binding = ActivityFollowerFolloweeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(this.binding.menuToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "Follower/Followee List"
+
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             loggedInUser = user
         }

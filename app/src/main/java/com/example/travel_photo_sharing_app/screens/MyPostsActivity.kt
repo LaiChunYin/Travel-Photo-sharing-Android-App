@@ -44,9 +44,9 @@ class MyPostsActivity : MainActivity() {
             { pos -> editClicked(pos)}
         )
 
-        binding.returnBtn.setOnClickListener {
-            finish()
-        }
+//        binding.returnBtn.setOnClickListener {
+//            finish()
+//        }
 
         binding.addPostBtn.setOnClickListener {
             val intent = Intent(this, AddPostActivity::class.java)
