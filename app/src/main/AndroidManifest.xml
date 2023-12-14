@@ -10,6 +10,12 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,6 +31,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyALi9ielmmb11VVz28stcQ_J-NWwY_qmek" />
 
+        <activity
+            android:name=".screens.CameraActivity"
+            android:exported="false" />
         <activity
             android:name=".screens.MyPostsActivity"
             android:exported="false" />

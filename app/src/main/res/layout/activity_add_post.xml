@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -21,6 +22,17 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="32dp"/>
+
+
+        <Switch
+            android:id="@+id/sw_address_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:switchMinWidth="48dp"
+            android:text="Enter coordinates"
+            android:textSize="16sp" />
+
 
         <!-- Address EditText -->
         <EditText
@@ -64,18 +76,7 @@
 <!--            android:padding="12dp"-->
 <!--            android:layout_marginBottom="16dp"/>-->
 
-<!--        &lt;!&ndash; Postal Code EditText &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/postalCode"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Postal Code"-->
-<!--            android:inputType="textPostalAddress"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
 
-        <!-- Type EditText -->
         <EditText
             android:id="@+id/type"
             android:layout_width="match_parent"
@@ -85,40 +86,7 @@
             android:background="@drawable/edit_text_background"
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
-
-        <!-- Author Name EditText -->
-<!--        <EditText-->
-<!--            android:id="@+id/author_name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Author name"-->
-<!--            android:inputType="textPersonName"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
-        <!-- Author Email EditText -->
-        <EditText
-            android:id="@+id/author_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Author email"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Author Phone Number EditText -->
-<!--        <EditText-->
-<!--            android:id="@+id/author_phone"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Author Phone Number"-->
-<!--            android:inputType="phone"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
+        
         <!-- Description EditText -->
         <EditText
             android:id="@+id/description"
@@ -130,42 +98,7 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Number of Bedrooms EditText -->
-<!--        <EditText-->
-<!--            android:id="@+id/bedrooms"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Number of Bedrooms"-->
-<!--            android:inputType="number"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
-<!--        &lt;!&ndash; Number of Kitchens EditText &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/kitchens"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Number of kitchens"-->
-<!--            android:inputType="number"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
-<!--        &lt;!&ndash; Number of Bathrooms EditText &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/bathrooms"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Number of Bathrooms"-->
-<!--            android:inputType="number"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
-        <!-- Availability Switch -->
-
-        <!-- Cancel Button -->
+        <!-- Public Post Switch -->
         <Switch
             android:id="@+id/visible_to_guest"
             android:layout_width="match_parent"
@@ -173,7 +106,19 @@
             android:layout_marginBottom="32dp"
             android:switchMinWidth="48dp"
             android:text="Is the Post Public?"
-            android:textSize="20sp" />
+            android:textSize="16sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <!-- Photo Button -->
+        <Button
+            android:id="@+id/btnUploadPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:background="@color/button_color"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Save Button -->
         <Button

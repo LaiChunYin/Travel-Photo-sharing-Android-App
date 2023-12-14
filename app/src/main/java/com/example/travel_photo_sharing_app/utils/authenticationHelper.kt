@@ -79,7 +79,7 @@ class AuthenticationHelper(val context: Context) {
                     }
                 }else{
                     Log.d(tag, "createAccount: Unable to create user account : ${task.exception}", )
-                    Toast.makeText(context, "Account creation failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Account creation failed due to ${task.exception}", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -1,12 +1,15 @@
 package com.example.travel_photo_sharing_app.screens
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.travel_photo_sharing_app.databinding.ActivityAddPostBinding
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
+import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.checkDuplicatedPost
 import com.example.travel_photo_sharing_app.utils.saveDataToSharedPref
 import com.google.android.material.snackbar.Snackbar
@@ -19,7 +22,8 @@ class AddPostActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddPostBinding
     lateinit var sharedPreferences: SharedPreferences
     lateinit var prefEditor: SharedPreferences.Editor
-    private var loggedInUserName: String = ""
+//    private var loggedInUserName: String = ""
+    private var loggedInUser: User? = null
     val tag = "Add Post"
 
     var savedPosts: MutableList<Post> = mutableListOf()
@@ -27,41 +31,58 @@ class AddPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         this.binding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loggedInUserName = this.intent.getStringExtra("USER") ?: ""
-        Log.i(tag, "In AddPost, user: ${loggedInUserName}")
+        binding.longitude.visibility = View.GONE
+        binding.latitude.visibility = View.GONE
+
+//        loggedInUserName = this.intent.getStringExtra("USER") ?: ""
+        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        Log.i(tag, "In AddPost, user: ${loggedInUser}")
+
+        binding.swAddressType.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                // If the switch is ON, make the address field invisible
+                binding.address.visibility = View.GONE
+                binding.longitude.visibility = View.VISIBLE
+                binding.latitude.visibility = View.VISIBLE
+            } else {
+                // If the switch is OFF, make the address field visible
+                binding.address.visibility = View.VISIBLE
+                binding.longitude.visibility = View.GONE
+                binding.latitude.visibility = View.GONE
+            }
+        }
 
         val selectedPost = intent.getSerializableExtra("POST_DATA") as Post?
         if (selectedPost != null) {
             binding.address.setText(selectedPost.address)
-//            binding.city.setText(selectedPost.city)
-//            binding.postalCode.setText(selectedPost.postalCode)
             binding.type.setText(selectedPost.type)
 //            binding.authorName.setText(selectedPost.author.username)
 //            binding.authorEmail.setText(selectedPost.author.email)
-            binding.authorEmail.setText(selectedPost.authorEmail)
+//            binding.authorEmail.setText(selectedPost.authorEmail)
 
 //            binding.authorPhone.setText(selectedPost.author.phone)
             binding.description.setText(selectedPost.description)
-//            binding.bedrooms.setText(selectedPost.numOfBedrooms.toString())
-//            binding.kitchens.setText(selectedPost.numOfKitchens.toString())
-//            binding.bathrooms.setText(selectedPost.numOfBathrooms.toString())
             binding.visibleToGuest.isChecked = selectedPost.visibleToGuest
         }
 
         this.sharedPreferences = getSharedPreferences("POSTS", MODE_PRIVATE)
         this.prefEditor = this.sharedPreferences.edit()
 
-        var resultsFromSP = sharedPreferences.getString(loggedInUserName, "")
+        var resultsFromSP = sharedPreferences.getString(loggedInUser!!.username, "")
         if (resultsFromSP != "") {
             val gson = Gson()
             val typeToken = object : TypeToken<List<Post>>() {}.type
             val tempPostList = gson.fromJson<List<Post>>(resultsFromSP, typeToken)
 
             savedPosts = tempPostList.toMutableList()
+        }
+
+        this.binding.btnUploadPhoto.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
         }
 
         this.binding.saveBtn.setOnClickListener {
@@ -81,12 +102,9 @@ class AddPostActivity : AppCompatActivity() {
 //        var city: String? = this.binding.city.text.toString()
 //        var postalCode: String? = this.binding.postalCode.text.toString()
 //        var authorName: String? = this.binding.authorName.text.toString()
-        var authorEmail: String? = this.binding.authorEmail.text.toString()
+        var authorEmail: String? = loggedInUser!!.email
 //        var authorPhone: String? = this.binding.authorPhone.text.toString()
         var desc: String? = this.binding.description.text.toString()
-//        var bedrooms: Int? = if(this.binding.bedrooms.text.toString() != "") this.binding.bedrooms.text.toString().toInt() else null
-//        var kitchens: Int? = if(this.binding.kitchens.text.toString() != "") this.binding.kitchens.text.toString().toInt() else null
-//        var bathrooms: Int? = if(this.binding.bathrooms.text.toString() != "") this.binding.bathrooms.text.toString().toInt() else null
         var visibleToGuest: Boolean? = this.binding.visibleToGuest.isChecked
 
         // error check
@@ -131,18 +149,6 @@ class AddPostActivity : AppCompatActivity() {
             this.binding.description.setError("Description cannot be empty")
             hasEmptyField = true
         }
-//        if (bedrooms == null) {
-//            this.binding.bedrooms.setError("Bedrooms cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (kitchens == null) {
-//            this.binding.kitchens.setError("Kitchens cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (bathrooms == null) {
-//            this.binding.bathrooms.setError("Bathrooms cannot be empty")
-//            hasEmptyField = true
-//        }
         if(hasEmptyField){
             Snackbar.make(binding.addPostParentLayout, "All fields are required.", Snackbar.LENGTH_LONG).show()
             return
@@ -160,8 +166,6 @@ class AddPostActivity : AppCompatActivity() {
         if(selectedPost != null){
             val postToEdit = Post(
                 address!!,
-//                city!!,
-//                postalCode!!,
                 type!!,
 //                author,
                 authorEmail!!,
@@ -174,10 +178,6 @@ class AddPostActivity : AppCompatActivity() {
                 longitude!!,
             )
 
-//            if(checkDuplicatedPost(postToEdit, this)){
-//                Snackbar.make(binding.addPostParentLayout, "Post already exist!!", Snackbar.LENGTH_LONG).show()
-//                return
-//            }
             savedPosts[index] = postToEdit
         }
         // create new post
@@ -191,7 +191,7 @@ class AddPostActivity : AppCompatActivity() {
 //            }
             savedPosts.add(postToAdd)
         }
-        saveDataToSharedPref(this, "POSTS", loggedInUserName, savedPosts, true)
+        saveDataToSharedPref(this, "POSTS", loggedInUser!!.username, savedPosts, true)
         Snackbar.make(binding.addPostParentLayout, "Data Saved to SharedPrefs", Snackbar.LENGTH_LONG).show()
         finish()
     }
