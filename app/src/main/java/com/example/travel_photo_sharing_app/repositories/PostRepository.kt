@@ -82,7 +82,10 @@ class PostRepository {
                         }
 
                         if (docRef != null) {
-                            publicPostsLiveData.add(Post(docRef))
+                            Log.d(tag, "visible? ${docRef["visibleToGuest"]}")
+                            if(docRef["visibleToGuest"] == true){
+                                publicPostsLiveData.add(Post(docRef))
+                            }
                         } else {
                             Log.d(
                                 tag,

@@ -70,6 +70,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         AuthenticationHelper.getInstance(this)
         //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
+            Log.d(tag, "oncreate log in: ${user}")
             loggedInUser = user
         }
         Log.d(tag, "in main, loggedin users is $loggedInUser")
@@ -164,6 +165,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 //        loggedInUser = authenticationHelper.getLoggedInUser()
         //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
+            Log.d(tag, "onresume log in: ${user}")
             loggedInUser = user
             postAdapter.loggedInUser = loggedInUser
         }

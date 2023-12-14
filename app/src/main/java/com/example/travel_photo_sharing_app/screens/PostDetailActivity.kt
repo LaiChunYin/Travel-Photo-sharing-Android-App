@@ -34,6 +34,7 @@ class PostDetailActivity : AppCompatActivity() {
 
         setSupportActionBar(this.binding.menuToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "Travel Photo Sharing App"
 
         binding.returnBtn.setOnClickListener {
             finish()
@@ -86,7 +87,11 @@ class PostDetailActivity : AppCompatActivity() {
                 }
 
                 val authorEmail = binding.authorEmail.text.toString()
-                if(loggedInUser!!.following.contains(authorEmail)){
+                if(loggedInUser!!.email == authorEmail){
+                    binding.followBtn.visibility = View.GONE
+                    binding.unfollowBtn.visibility = View.GONE
+                }
+                else if(loggedInUser!!.following.contains(authorEmail)){
                     binding.followBtn.visibility = View.GONE
                     binding.unfollowBtn.visibility = View.VISIBLE
                 }

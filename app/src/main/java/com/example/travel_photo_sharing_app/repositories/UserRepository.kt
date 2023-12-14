@@ -26,7 +26,7 @@ class UserRepository {
     private val FIELD_SAVED_POSTS = "savedPosts"
     private val FIELD_FOLLOWED_BY = "followedBy"
     private val FIELD_FOLLOWING = "following"
-    private val FIELD_PHONE = "phoneNumber"
+    private val FIELD_CREATED_POSTS = "createdPosts"
     private val postRepository = PostRepository()
 
     var allFollowers : MutableLiveData<List<User>> = MutableLiveData<List<User>>()
@@ -43,6 +43,7 @@ class UserRepository {
             data[FIELD_SAVED_POSTS] = mutableListOf<Post>()
             data[FIELD_FOLLOWED_BY] = mutableListOf<String>()
             data[FIELD_FOLLOWING] = mutableListOf<String>()
+            data[FIELD_CREATED_POSTS] = mutableListOf<String>()
 //            data[FIELD_PHONE] = newUser.phone
 
             db.collection(COLLECTION_USERS)
