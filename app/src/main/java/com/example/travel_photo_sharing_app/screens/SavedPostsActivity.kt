@@ -25,8 +25,13 @@ class SavedPostsActivity : AppCompatActivity() {
         binding = ActivitySavedPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(this.binding.menuToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
+//---------------------------------    ---------     - ----- - - - -- - - removing menu item to solve duplicate page problem
+//        setSupportActionBar(this.binding.menuToolbar)
+//        supportActionBar?.setDisplayShowTitleEnabled(true)
+//---------------------------------    ---------     - ----- - - - -- - - removing menu item to solve duplicate page problem
+
+
+
 
 //        binding.returnBtn.setOnClickListener {
 //            finish()
@@ -71,7 +76,5 @@ class SavedPostsActivity : AppCompatActivity() {
                 )
             }
         }
-
     }
-
 }

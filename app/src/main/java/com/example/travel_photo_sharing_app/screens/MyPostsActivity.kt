@@ -34,8 +34,8 @@ class MyPostsActivity : MainActivity() {
         this.prefEditor = this.sharedPreferences.edit()
 
 
-        setSupportActionBar(this.binding.menuToolbar)
-        supportActionBar?.title = "Your Post List"
+//        setSupportActionBar(this.binding.menuToolbar)
+//        supportActionBar?.title = "Your Post List"
 
         loggedInUserName = this.intent.getStringExtra("USER")!!
         val myPostsJson = sharedPreferences.getString(loggedInUserName, "")
@@ -50,9 +50,6 @@ class MyPostsActivity : MainActivity() {
             { pos -> editClicked(pos)}
         )
 
-        binding.returnBtn.setOnClickListener {
-            finish()
-        }
 
         binding.addPostBtn.setOnClickListener {
             val intent = Intent(this, AddPostActivity::class.java)
