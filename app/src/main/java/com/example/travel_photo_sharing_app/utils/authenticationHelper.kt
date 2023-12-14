@@ -6,7 +6,6 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.MainActivity
 import com.example.travel_photo_sharing_app.models.User
@@ -18,11 +17,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class AuthenticationHelper(val context: Context) {
-//    var isLoggedIn: Boolean = false
-//    var loggedInUser: User? = null
     var loggedInUser: MutableLiveData<User?> = MutableLiveData<User?>(null)
     val tag: String = "AuthenHelper"
-//    private lateinit var firebaseAuth : FirebaseAuth
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val userRepository: UserRepository = UserRepository()
     lateinit var snapshotListener: ListenerRegistration
@@ -46,28 +42,7 @@ class AuthenticationHelper(val context: Context) {
                 }
             }
         }
-//        fun setContext(context: Context) {
-//
-//        }
     }
-
-//    fun getLoggedInUser(): User?{
-////        val userEmail: String? = firebaseAuth.currentUser?.email
-////        if(userEmail == null){
-////            Log.d(tag, "userEmail is null")
-////            return null
-////        }
-////        else{
-////            Log.d(tag, "userEmail is ${userEmail}")
-////            return userRepository.findUserByEmail(userEmail)
-////        }
-//
-//
-////        val loggedInUser = User()
-////        return loggedInUser
-//
-//        return this.loggedInUser
-//    }
 
     suspend fun signUp(newUser: User) {
 //        SignUp using FirebaseAuth
@@ -96,7 +71,6 @@ class AuthenticationHelper(val context: Context) {
             .addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
                     Log.d(tag, "signIn: Login successful ${firebaseAuth.currentUser?.email}")
-//                    isLoggedIn = true
                     (context as AppCompatActivity).lifecycleScope.launch {
                         val userEmail: String? = firebaseAuth.currentUser?.email
                         if(userEmail == null){
@@ -109,7 +83,6 @@ class AuthenticationHelper(val context: Context) {
 
                             snapshotListener = userRepository.getUserSnapshotListener(userEmail, loggedInUser)
                         }
-//                        loggedInUser = getLoggedInUser()
                         Log.d(tag, "logged in user is ${loggedInUser}")
                         val intent = Intent(context, MainActivity::class.java)
                         context.startActivity(intent)
@@ -131,6 +104,5 @@ class AuthenticationHelper(val context: Context) {
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra("REFERER", "SignOut")
         context.startActivity(intent)
-//        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
     }
 }

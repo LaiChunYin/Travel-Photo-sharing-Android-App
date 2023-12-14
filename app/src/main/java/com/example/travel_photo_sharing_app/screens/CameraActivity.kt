@@ -55,22 +55,6 @@ class CameraActivity : AppCompatActivity() {
 
         binding.btnTakePhoto.setOnClickListener {
             savePhotoToDeviceMemory()
-
-//            cameraController.takePicture( null,
-//                object: PictureCallback {
-//                    override fun onPictureTaken(
-//                        data: ByteArray?,
-//                        camera: android.hardware.Camera?
-//                    ) {
-//                        TODO("Not yet implemented")
-//                    }
-//                })
-////            val base64Img =
-////            Log.d(tag, "image taken is ${base64Img}")
-//            val returnIntent = Intent()
-//            returnIntent.putExtra("BASE_64_IMG", base64Img)
-//            setResult(Activity.RESULT_CANCELED)
-//            finish()
         }
 
         binding.btnReturn.setOnClickListener {

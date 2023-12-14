@@ -3,15 +3,10 @@ package com.example.travel_photo_sharing_app.repositories
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.models.Post
-import com.example.travel_photo_sharing_app.models.User
-import com.example.travel_photo_sharing_app.utils.tag
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
-import org.checkerframework.checker.units.qual.C
-import java.time.LocalDateTime
 import com.google.firebase.firestore.EventListener
 
 class PostRepository {
@@ -50,24 +45,6 @@ class PostRepository {
 
     fun getAllPublicPosts(){
         try{
-//            db.collection(COLLECTION_POSTS)
-//                .whereEqualTo(FIELD_VISIBLE_TO_GUEST, true)
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    val posts = mutableListOf<Post>()
-//                    Log.d(tag, "getAllPublicPosts result ${result.documents}")
-//                    for(post in result.documents){
-//                        Log.d(tag, "post is ${post.data},,, ${post}")
-//                        Log.d(tag, "post latitude ${post.data!!["latitude"]}, ${post.data!!["latitude"]!!::class.java}, longitude ${post.data!!["longitude"]}, ${post.data!!["longitude"]!!::class.java}")
-//                        posts.add(Post(post))
-//                    }
-//                    Log.d(tag, "getAllPublicPosts: $result")
-//                    publicPosts.postValue(posts)
-//                }
-//                .addOnFailureListener { ex ->
-//                    Log.e(tag, "Failed to getAllPublicPosts ${tag}: $ex")
-//                }
-
             db.collection(COLLECTION_POSTS)
                 .addSnapshotListener(EventListener{ result, error ->
                     val publicPostsLiveData = mutableListOf<Post>()
@@ -107,26 +84,6 @@ class PostRepository {
         try{
             val data : MutableMap<String, Any?> = newPost.toHashMap()
 
-//            // save new Post
-//            db.collection(COLLECTION_POSTS)
-//            .document()
-//            .set(data)
-//            .addOnSuccessListener { docRef ->
-//                Log.d(tag, "Added ${docRef} to Posts")
-//
-//                // record the new post in the corresponding user
-//                db.collection(COLLECTION_USERS).document(docRef.id!!)
-//            }
-//            .addOnFailureListener { ex ->
-//                Log.e(tag, "Failed to add ${newPost}: $ex")
-//            }
-//
-//            // record the new post in the corresponding user
-//
-//        }catch (ex : Exception){
-//            Log.e(tag, "addPost failed: $ex", )
-//        }
-
             // save new Post
             val document = db.collection(COLLECTION_POSTS).document()
                 Log.d(tag, "new Post id is ${document.id}")
@@ -149,8 +106,6 @@ class PostRepository {
                 .addOnFailureListener { ex ->
                     Log.e(tag, "Failed to add ${newPost}: $ex")
                 }
-
-            // record the new post in the corresponding user
 
         }catch (ex : Exception){
             Log.e(tag, "addPost failed: $ex", )

@@ -10,7 +10,6 @@ import com.example.travel_photo_sharing_app.databinding.ActivitySavedPostsBindin
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.repositories.PostRepository
-import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import kotlinx.coroutines.launch
 
@@ -30,44 +29,15 @@ class SavedPostsActivity : AppCompatActivity() {
         setSupportActionBar(this.binding.menuToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
 
-
-
-
         binding.returnBtn.setOnClickListener {
             finish()
         }
 
-//        loggedInUser = getLoggedInUser(this)
-//        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this){user ->
             loggedInUser = user
         }
-//        if(loggedInUser != null){
-//            var savedPosts :MutableList<Post> = mutableListOf()
-//            if (loggedInUser != null) {
-//                savedPosts = loggedInUser!!.savedPosts
-//            }
-//
-////            var adapter = PostAdapter(savedPosts, loggedInUser?.username ?: "", true)
-//            var adapter = PostAdapter(savedPosts, loggedInUser, true, this@SavedPostsActivity)
-//            this.binding.shortlistRv.adapter = adapter
-//            this.binding.shortlistRv.layoutManager = LinearLayoutManager(this)
-//            this.binding.shortlistRv.addItemDecoration(
-//                DividerItemDecoration(
-//                    this,
-//                    LinearLayoutManager.VERTICAL
-//                )
-//            )
-//        }
 
         lifecycleScope.launch {
-//            if(loggedInUser != null){
-//                var savedPosts :MutableList<Post> = mutableListOf()
-//                for(postId in loggedInUser!!.savedPosts){
-//                    savedPosts.add(postRepository.getPostById(postId)!!)
-//                }
-
-//            var adapter = PostAdapter(savedPosts, loggedInUser?.username ?: "", true)
                 adapter = PostAdapter(savedPosts, loggedInUser, true, this@SavedPostsActivity)
                 this@SavedPostsActivity.binding.shortlistRv.adapter = adapter
                 this@SavedPostsActivity.binding.shortlistRv.layoutManager = LinearLayoutManager(this@SavedPostsActivity)
@@ -77,16 +47,12 @@ class SavedPostsActivity : AppCompatActivity() {
                         LinearLayoutManager.VERTICAL
                     )
                 )
-
-//            }
         }
 
     }
 
     override fun onResume() {
         super.onResume()
-//        var savedPosts :MutableList<Post> = mutableListOf()
-
         AuthenticationHelper.instance!!.loggedInUser.observe(this){user ->
             loggedInUser = user
         }

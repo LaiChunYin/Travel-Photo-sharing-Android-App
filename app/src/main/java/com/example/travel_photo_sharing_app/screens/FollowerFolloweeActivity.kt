@@ -1,6 +1,5 @@
 package com.example.travel_photo_sharing_app.screens;
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -35,8 +34,6 @@ class FollowerFolloweeActivity : MainActivity() {
         binding = ActivityFollowerFolloweeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             loggedInUser = user
         }
@@ -89,7 +86,6 @@ class FollowerFolloweeActivity : MainActivity() {
             userRepository.getAllFollowers(loggedInUser!!.email)
         }
         userRepository.allFollowers.observe(this){users ->
-//            followers = users.toMutableList()
             followers.clear()
             followers.addAll(users)
             Log.d(tag, "followers displayed are ${followers}")
@@ -97,7 +93,6 @@ class FollowerFolloweeActivity : MainActivity() {
         }
 
         userRepository.allFollowees.observe(this) {users ->
-//            followees = users.toMutableList()
             followees.clear()
             followees.addAll(users)
             Log.d(tag, "followees displayed are ${followees}")

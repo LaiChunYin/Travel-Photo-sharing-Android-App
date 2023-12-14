@@ -7,7 +7,6 @@ open class User(
     val email: String,
     val password: String,
     val username: String,
-//    val savedPosts: MutableList<Post> = mutableListOf(),
     val savedPosts: MutableList<String> = mutableListOf(),
     val createdPosts: MutableList<String> = mutableListOf(),
     val followedBy: MutableList<String> = mutableListOf(), // use email as the id
@@ -18,7 +17,6 @@ open class User(
         document["email"] as String,
         document["password"] as String,
         document["username"] as String,
-//        document["savedPosts"] as MutableList<Post>,
         document["savedPosts"] as MutableList<String>,
         document["createdPosts"] as MutableList<String>,
         document["followedBy"] as MutableList<String>,

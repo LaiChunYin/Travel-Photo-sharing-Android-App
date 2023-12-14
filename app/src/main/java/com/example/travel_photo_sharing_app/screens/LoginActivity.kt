@@ -11,14 +11,12 @@ import com.example.travel_photo_sharing_app.MainActivity
 import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 open class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var prefEditor: SharedPreferences.Editor
-//    private lateinit var authenticationHelper: AuthenticationHelper
     open val tag = "Login"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +27,6 @@ open class LoginActivity : AppCompatActivity() {
         // configure shared preferences
         this.sharedPreferences = getSharedPreferences("USERS", MODE_PRIVATE)
         this.prefEditor = this.sharedPreferences.edit()
-
-//        this.authenticationHelper = AuthenticationHelper(this)
 
         val isFromMain = this@LoginActivity.intent.extras != null &&
                         this@LoginActivity.intent.extras!!.containsKey("REFERER") &&
@@ -46,37 +42,14 @@ open class LoginActivity : AppCompatActivity() {
             val password = this.binding.passwordInput.text.toString()
 
             lifecycleScope.launch {
-//                authenticationHelper.signIn(email, password)
                 AuthenticationHelper.instance!!.signIn(email, password)
             }
-
-//            login(user)
         }
 
         binding.signUpBtn.setOnClickListener {
             val intent = Intent(this@LoginActivity, CreateAccountActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    protected fun login(user: User){
-        Log.i(tag, "logging in")
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-        intent.putExtra("USER", user.username)
-        startActivity(intent)
-    }
-
-    private fun successLogInCallBack(){
-
-    }
-    private fun failLogInCallBack(){
-
-    }
-    private fun successCreateCallBack(){
-
-    }
-    private fun failCreateCallBack(){
-
     }
 
 }

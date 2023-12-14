@@ -1,19 +1,15 @@
 package com.example.travel_photo_sharing_app.repositories
 
-import android.os.Build.VERSION_CODES.P
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
-import com.google.android.play.integrity.internal.f
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ListenerRegistration
-import org.checkerframework.checker.units.qual.C
 
 class UserRepository {
     private val tag = "User Repo"
@@ -44,7 +40,6 @@ class UserRepository {
             data[FIELD_FOLLOWED_BY] = mutableListOf<String>()
             data[FIELD_FOLLOWING] = mutableListOf<String>()
             data[FIELD_CREATED_POSTS] = mutableListOf<String>()
-//            data[FIELD_PHONE] = newUser.phone
 
             db.collection(COLLECTION_USERS)
                 .document(newUser.email)
@@ -95,7 +90,6 @@ class UserRepository {
                 Log.d(tag, "user created from result ${User(result.data!!)}")
 
                 if(result.data != null){
-//                    return User(result.data!!)
                     users.add(User(result.data!!))
                 }
 
@@ -259,28 +253,6 @@ class UserRepository {
                 }
 
                 if (result != null){
-//                    Log.d(tag, "getUserSnapshotListener: Number of documents retrieved : ${result.size()}")
-
-//                    val tempList : MutableList<User> = ArrayList<User>()
-
-//                    for (docChanges in result.documentChanges){
-
-//                        val currentDocument : User = docChanges.document.toObject(Expense::class.java)
-//                        Log.d(tag, "retrieveAllExpenses: currentDocument : $currentDocument")
-//
-//                        when(docChanges.type){
-//                            DocumentChange.Type.ADDED -> {
-//                                //do necessary changes to your local list of objects
-//                                tempList.add(currentDocument)
-//                            }
-//                            DocumentChange.Type.MODIFIED -> {
-//
-//                            }
-//                            DocumentChange.Type.REMOVED -> {
-//
-//                            }
-//                        }
-//                    }
                     userLiveData.postValue(User(result.data!!))
 
                 }else{

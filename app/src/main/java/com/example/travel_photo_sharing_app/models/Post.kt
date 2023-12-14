@@ -30,15 +30,6 @@ class Post(
         document.data!!["imageUrl"] as String?,
         document.data!!["createdAt"] as String,
         document.id!!
-//        document["address"] as String,
-//        document["type"] as String,
-//        document["authorEmail"] as String,
-//        document["description"] as String,
-//        document["visibleToGuest"] as Boolean,
-//        document["latitude"] as Double,
-//        document["longitude"] as Double,
-//        document["imageUrl"] as String,
-//        document["createdAt"] as String
     )
     {
         Log.d("Post", "using constructor ${this}")
@@ -48,7 +39,6 @@ class Post(
 
         val matchFound = type.lowercase().contains(lowerCaseQuery) ||
                 description.lowercase().contains(lowerCaseQuery) ||
-//                author.username.lowercase().contains(lowerCaseQuery) ||
                 authorEmail.lowercase().contains(lowerCaseQuery) ||
                 address.lowercase().contains(lowerCaseQuery) ||
                 matchesNumericQuery(lowerCaseQuery)
@@ -63,7 +53,6 @@ class Post(
     override fun equals(other: Any?): Boolean {
         if(this === other) return true
         if(other !is Post) return false
-//        if(this.postalCode != other.postalCode) return false
         if(this.address != other.address) return false
 
         return true
@@ -71,11 +60,6 @@ class Post(
     private fun matchesNumericQuery(query: String): Boolean {
         val queryAsNumber = query.toIntOrNull()
         return queryAsNumber != null
-//                &&
-//                (
-//                numOfBedrooms == queryAsNumber ||
-//                numOfKitchens == queryAsNumber ||
-//                numOfBathrooms == queryAsNumber)
     }
     fun toHashMap(): HashMap<String, Any?>{
         val result = HashMap<String, Any?>()

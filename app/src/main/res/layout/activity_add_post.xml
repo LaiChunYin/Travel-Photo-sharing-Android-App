@@ -78,28 +78,6 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
-        <!--        &lt;!&ndash; City EditText &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/city"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="City"-->
-<!--            android:inputType="text"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
-
-<!--        <EditText-->
-<!--            android:id="@+id/type"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Type"-->
-<!--            android:inputType="text"-->
-<!--            android:background="@drawable/edit_text_background"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginBottom="16dp"/>-->
-
         <!-- Description EditText -->
         <EditText
             android:id="@+id/description"

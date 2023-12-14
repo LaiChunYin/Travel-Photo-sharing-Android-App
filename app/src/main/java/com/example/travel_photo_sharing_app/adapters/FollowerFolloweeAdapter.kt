@@ -16,7 +16,6 @@ import com.example.travel_photo_sharing_app.utils.tag
 class FollowerFolloweeAdapter(
     private var userList: MutableList<User>,
     private val unfollowBtnClickHandler: ((String) -> Unit)?,
-//    private val showingFollowees: Boolean
 ) : RecyclerView.Adapter<FollowerFolloweeAdapter.UserViewHolder>() {
         private val tag = "Followee/Follower Adapter"
 
@@ -44,7 +43,6 @@ class FollowerFolloweeAdapter(
             email_tv.text = currUser.email
 
             Log.d(tag, "handler is null ${unfollowBtnClickHandler != null}")
-//            if(showingFollowees){
             if(unfollowBtnClickHandler != null){
                 holder.itemView.findViewById<Button>(R.id.unfollow_btn).visibility = View.VISIBLE
                 holder.itemView.findViewById<Button>(R.id.unfollow_btn).setOnClickListener {

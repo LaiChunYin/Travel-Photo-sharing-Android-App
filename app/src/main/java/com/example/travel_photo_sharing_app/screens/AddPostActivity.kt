@@ -1,13 +1,10 @@
 package com.example.travel_photo_sharing_app.screens
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -21,26 +18,15 @@ import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
-import com.example.travel_photo_sharing_app.utils.CameraImageHelper.Companion.base64ToBitmap
-import com.example.travel_photo_sharing_app.utils.CameraImageHelper.Companion.bitmapToBase64
 import com.example.travel_photo_sharing_app.utils.LocationHelper
-import com.example.travel_photo_sharing_app.utils.checkDuplicatedPost
 import com.example.travel_photo_sharing_app.utils.getCategorySpinnerList
-import com.example.travel_photo_sharing_app.utils.saveDataToSharedPref
-import com.example.travel_photo_sharing_app.utils.sharedPreferences
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 
 class AddPostActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddPostBinding
-//    lateinit var sharedPreferences: SharedPreferences
-//    lateinit var prefEditor: SharedPreferences.Editor
-//    private var loggedInUserName: String = ""
     private var loggedInUser: User? = null
     private var postRepository = PostRepository()
     private lateinit var locationHelper: LocationHelper
@@ -64,8 +50,6 @@ class AddPostActivity : AppCompatActivity() {
         binding.latitude.visibility = View.GONE
         binding.imageTaken.visibility = View.GONE
 
-//        loggedInUserName = this.intent.getStringExtra("USER") ?: ""
-        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             loggedInUser = user
         }
@@ -85,7 +69,6 @@ class AddPostActivity : AppCompatActivity() {
             }
         }
 
-//        val selectedPost = intent.getSerializableExtra("POST_DATA") as Post?
         var postId = intent.getStringExtra("POST")
         Log.d(tag, "postid in add post ${postId}")
         if (postId != null) {
@@ -98,12 +81,6 @@ class AddPostActivity : AppCompatActivity() {
 
                 binding.address.setText(selectedPost!!.address)
                 binding.categorySpinner.setSelection(getCategorySpinnerList(this@AddPostActivity).indexOf(selectedPost!!.type))
-//            binding.type.setText(selectedPost.type)
-//            binding.authorName.setText(selectedPost.author.username)
-//            binding.authorEmail.setText(selectedPost.author.email)
-//            binding.authorEmail.setText(selectedPost.authorEmail)
-
-//            binding.authorPhone.setText(selectedPost.author.phone)
                 binding.description.setText(selectedPost!!.description)
                 binding.visibleToGuest.isChecked = selectedPost!!.visibleToGuest
 
@@ -113,19 +90,6 @@ class AddPostActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-//        this.sharedPreferences = getSharedPreferences("POSTS", MODE_PRIVATE)
-//        this.prefEditor = this.sharedPreferences.edit()
-//
-//        var resultsFromSP = sharedPreferences.getString(loggedInUser!!.username, "")
-//        if (resultsFromSP != "") {
-//            val gson = Gson()
-//            val typeToken = object : TypeToken<List<Post>>() {}.type
-//            val tempPostList = gson.fromJson<List<Post>>(resultsFromSP, typeToken)
-//
-//            savedPosts = tempPostList.toMutableList()
-//        }
 
         this.binding.btnUploadPhoto.setOnClickListener {
 //            val intent = Intent(this, CameraActivity::class.java)
@@ -149,8 +113,6 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         this.binding.currentLocationBtn.setOnClickListener {
-//            val showCoordinates = binding.addressCoordinatesSwitch.isChecked
-
             locationHelper.getCurrentLocation()
             locationHelper.currentLocation.observe(this) { currLocation ->
                 val latitude: Double = currLocation.latitude
@@ -220,18 +182,8 @@ class AddPostActivity : AppCompatActivity() {
             }
         }
 
-//        var address: String? = this.binding.address.text.toString()
-//        var latitude: Double? = this.binding.longitude.text.toString().toDouble()
-//        var longitude: Double? = this.binding.latitude.text.toString().toDouble()
-
-
         var type: String? = this.binding.categorySpinner.selectedItem.toString()
-//        var type: String? = this.binding.type.text.toString()
-//        var city: String? = this.binding.city.text.toString()
-//        var postalCode: String? = this.binding.postalCode.text.toString()
-//        var authorName: String? = this.binding.authorName.text.toString()
         var authorEmail: String? = loggedInUser!!.email
-//        var authorPhone: String? = this.binding.authorPhone.text.toString()
         var desc: String? = this.binding.description.text.toString()
         var visibleToGuest: Boolean? = this.binding.visibleToGuest.isChecked
         var base64Img: String? = CameraImageHelper.bitmapToBase64(this.binding.imageTaken.drawable.toBitmap())
@@ -251,30 +203,7 @@ class AddPostActivity : AppCompatActivity() {
             this.binding.longitude.setError("Longitude cannot be empty")
             hasEmptyField = true
         }
-//        if (type.isNullOrEmpty()) {
-//            this.binding.type.setError("Type cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (city.isNullOrEmpty()) {
-//            this.binding.city.setError("City cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (postalCode.isNullOrEmpty()) {
-//            this.binding.postalCode.setError("Postal code cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (authorName.isNullOrEmpty()) {
-//            this.binding.authorName.setError("Author name cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (authorPhone.isNullOrEmpty()) {
-//            this.binding.authorPhone.setError("Author phone cannot be empty")
-//            hasEmptyField = true
-//        }
-//        if (authorEmail.isNullOrEmpty()) {
-//            this.binding.authorEmail.setError("Author email cannot be empty")
-//            hasEmptyField = true
-//        }
+
         if (desc.isNullOrEmpty()) {
             this.binding.description.setError("Description cannot be empty")
             hasEmptyField = true
@@ -284,30 +213,11 @@ class AddPostActivity : AppCompatActivity() {
             return
         }
 
-//        val author = User(authorName!!, authorEmail!!, authorPhone!!)
-//        val author = User(authorName!!, authorEmail!!, "placeholder", mutableListOf(), "placeholder", authorPhone!!)
-//        val author = User(authorEmail!!, )
-
-//        val selectedPost = intent.getSerializableExtra("POST_DATA") as Post?
         val index = intent.getIntExtra("INDEX", -1)
         Log.i(tag, "selected post ${index}: ${selectedPost}")
 
         // update post
         if(selectedPost != null){
-//            val postToEdit = Post(
-//                address!!,
-//                type!!,
-////                author,
-//                authorEmail!!,
-//                desc!!,
-////                bedrooms!!,
-////                kitchens!!,
-////                bathrooms!!,
-//                visibleToGuest!!,
-//                latitude!!,
-//                longitude!!,
-//            )
-//            val postId: String = this.binding.postId.text.toString()
             Log.d(tag, "postId is ${selectedPost.idFromDb}")
             val postToEdit = selectedPost
             postToEdit.address = address!!
@@ -319,22 +229,13 @@ class AddPostActivity : AppCompatActivity() {
             postToEdit.imageUrl = base64Img!!
             Log.d(tag, "post to update is ${postToEdit}")
 
-//            savedPosts[index] = postToEdit
             postRepository.updatePost(selectedPost.idFromDb!!, postToEdit)
         }
         // create new post
         else {
-//            var postToAdd = Post(address!!, city!!, postalCode!!, type!!, author, desc!!, bedrooms!!, kitchens!!, bathrooms!!, availableForRent!!)
-//            var postToAdd = Post(address!!, type!!, author, desc!!, visibleToGuest!!)
             var postToAdd = Post(address!!, type!!, authorEmail!!, desc!!, visibleToGuest!!, latitude!!, longitude!!, base64Img!!)
-//            if(checkDuplicatedPost(postToAdd, this)){
-//                Snackbar.make(binding.addPostParentLayout, "Post already exist!!", Snackbar.LENGTH_LONG).show()
-//                return
-//            }
-//            savedPosts.add(postToAdd)
             postRepository.addPost(postToAdd)
         }
-//        saveDataToSharedPref(this, "POSTS", loggedInUser!!.username, savedPosts, true)
         Snackbar.make(binding.addPostParentLayout, "Data Saved", Snackbar.LENGTH_LONG).show()
         finish()
     }

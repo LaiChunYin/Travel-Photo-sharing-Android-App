@@ -78,27 +78,6 @@
             android:layout_height="wrap_content"
             android:stretchColumns="*">
 
-<!--            <TableRow-->
-<!--                android:layout_marginTop="16dp">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="Author Name: "-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textSize="16sp"/>-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/author_name"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textSize="16sp"/>-->
-
-<!--            </TableRow>-->
-
             <TableRow>
                 <TextView
                     android:layout_width="0dp"
@@ -116,24 +95,6 @@
                     android:padding="8dp"
                     android:textSize="16sp"/>
             </TableRow>
-
-<!--            <TableRow>-->
-<!--                <TextView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="Author Phone Number: "-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textSize="16sp"/>-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/author_phone"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textSize="16sp"/>-->
-<!--            </TableRow>-->
 
         </TableLayout>
 

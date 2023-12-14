@@ -2,7 +2,6 @@ package com.example.travel_photo_sharing_app
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -11,12 +10,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.travel_photo_sharing_app.R
 import com.example.travel_photo_sharing_app.databinding.ActivityMainBinding
 import com.example.travel_photo_sharing_app.adapters.PostAdapter
 import com.example.travel_photo_sharing_app.models.Post
@@ -25,12 +21,9 @@ import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.screens.FollowerFolloweeActivity
 import com.example.travel_photo_sharing_app.screens.LoginActivity
 import com.example.travel_photo_sharing_app.screens.SavedPostsActivity
-//import com.example.travel_photo_sharing_app.utils.getLoggedInUser
 import com.example.travel_photo_sharing_app.screens.MyPostsActivity
 import com.example.travel_photo_sharing_app.screens.PostDetailActivity
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
-import com.example.travel_photo_sharing_app.utils.initializePosts
-import com.example.travel_photo_sharing_app.utils.tag
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 
 open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -50,9 +42,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var postsToBeDisplayed: MutableList<Post> = mutableListOf()
     private var allPosts: MutableList<Post> = mutableListOf()
     private lateinit var allPublicPosts: MutableLiveData<List<Post>>
-//    private var loggedInUserName: String = ""
     private var loggedInUser: User? = null
-//    private val authenticationHelper = AuthenticationHelper.getInstance(this)
     open val tag = "Main"
     private val postRepository = PostRepository()
     private val markerPostMap = HashMap<Marker, Post>()
@@ -62,13 +52,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-//        allPosts = initializePosts(this)
-//        initializePosts(this)
-//        loggedInUser = getLoggedInUser(this)
-//        loggedInUser = authenticationHelper.getLoggedInUser()
         AuthenticationHelper.getInstance(this)
-        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             Log.d(tag, "oncreate log in: ${user}")
             loggedInUser = user
@@ -117,15 +101,9 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-//        postAdapter = PostAdapter(postsToBeDisplayed, loggedInUser?.username ?: "", false)
         postAdapter = PostAdapter(postsToBeDisplayed, loggedInUser, false, this@MainActivity)
         binding.postsRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         binding.postsRecyclerView.adapter = postAdapter
-//        postRepository.publicPosts.observe(this){ publicPosts ->
-//            Log.d(tag, "in observer ${publicPosts}")
-//            postsToBeDisplayed.addAll(publicPosts)
-//            postAdapter.notifyDataSetChanged()
-//        }
 
 
         binding.searchButton.setOnClickListener {
@@ -161,9 +139,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onResume() {
-//        loggedInUser = getLoggedInUser(this)
-//        loggedInUser = authenticationHelper.getLoggedInUser()
-        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
             Log.d(tag, "onresume log in: ${user}")
             loggedInUser = user
@@ -184,9 +159,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             postAdapter.notifyDataSetChanged()
             addPostsToMap(postsToBeDisplayed)
         }
-//        postsToBeDisplayed.clear()
-//        postsToBeDisplayed.addAll(allPosts)
-//        postAdapter.notifyDataSetChanged()
 
         super.onResume()
     }
@@ -211,8 +183,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         return when (item.itemId) {
             R.id.login -> {
                 val intent = Intent(this, LoginActivity::class.java)
-//                intent.putExtra("USER", "")
-//                intent.putExtra("REFERER", "MainActivity")
                 startActivity(intent)
                 return true
             }
@@ -244,7 +214,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.logout -> {
                 val intent = Intent(this, MainActivity::class.java)
                 AuthenticationHelper.instance!!.signOut()
-//                intent.putExtra("USER", "")
                 intent.putExtra("REFERER", "MainActivity")
                 startActivity(intent)
                 return true
@@ -262,7 +231,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 intent.putExtra("USER", "")
                 intent.putExtra("REFERER", "Toolbar")
                 startActivity(intent)
-//                Snackbar.make(findViewById(R.id.root_layout), "Data erased!", Snackbar.LENGTH_LONG).show()
                 return true
             }
             R.id.delete_posts -> {

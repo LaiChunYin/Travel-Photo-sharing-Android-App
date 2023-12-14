@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.travel_photo_sharing_app.databinding.ActivityCreateAccountBinding
 import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
-import com.example.travel_photo_sharing_app.utils.saveDataToSharedPref
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -27,8 +26,6 @@ class CreateAccountActivity : LoginActivity() {
             val email: String = this.binding.emailInput.text.toString()
             val password: String = this.binding.passwordInput.text.toString()
             val confirmPassword: String = this.binding.confirmPasswordInput.text.toString()
-//            val checkBtn: RadioButton? = findViewById<RadioButton>(this.binding.userTypeRadioGp.checkedRadioButtonId)
-//            val userType = checkBtn?.text.toString()
 
             // configure shared preferences
             this.sharedPreferences = getSharedPreferences("USERS", MODE_PRIVATE)
@@ -48,10 +45,6 @@ class CreateAccountActivity : LoginActivity() {
                 Snackbar.make(binding.root, "Please enter an email address", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-//            if(userType == "" || userType == "null" || userType == null) {
-//                Snackbar.make(binding.root, "Please select a user type", Snackbar.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            }
             if(password == "" || confirmPassword == "") {
                 Snackbar.make(binding.root, "Please enter a password and the confirm password", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -68,7 +61,6 @@ class CreateAccountActivity : LoginActivity() {
                 return@setOnClickListener
             }
 
-//            signup(username, password, userType)
             val newUser = User(email, password, username)
 
             lifecycleScope.launch {
@@ -77,13 +69,4 @@ class CreateAccountActivity : LoginActivity() {
         }
     }
 
-//    private fun signup(username: String, password: String, userType: String){
-//        Log.i(tag, "creating account $username, $password $userType")
-////        val newUser = User(username, password, userType)
-//        val newUser = User(username, password, userType, mutableListOf(), "placeholder", "placeholder")
-//
-//        saveDataToSharedPref(this, "USERS", username, newUser, true)
-//
-//        login(newUser)
-//    }
 }
