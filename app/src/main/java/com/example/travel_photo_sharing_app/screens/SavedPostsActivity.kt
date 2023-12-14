@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.travel_photo_sharing_app.MainActivity
 import com.example.travel_photo_sharing_app.adapters.PostAdapter
 import com.example.travel_photo_sharing_app.databinding.ActivitySavedPostsBinding
 import com.example.travel_photo_sharing_app.models.Post
@@ -13,10 +14,10 @@ import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import kotlinx.coroutines.launch
 
-class SavedPostsActivity : AppCompatActivity() {
+class SavedPostsActivity : MainActivity() {
     private lateinit var binding: ActivitySavedPostsBinding
     private var loggedInUser: User? = null
-    private val tag = "Shortlist"
+    override val tag = "Shortlist"
     private val postRepository = PostRepository()
     private lateinit var adapter: PostAdapter
     private val savedPosts :MutableList<Post> = mutableListOf()
@@ -28,6 +29,8 @@ class SavedPostsActivity : AppCompatActivity() {
 
         setSupportActionBar(this.binding.menuToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "My Favourite Posts"
+
 
 //        binding.returnBtn.setOnClickListener {
 //            finish()
