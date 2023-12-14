@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import com.example.travel_photo_sharing_app.R
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
@@ -279,4 +280,14 @@ fun initializePosts(context: Context) {
 
 //    postsToBeDisplay.addAll(allUserPosts)
 //    return postsToBeDisplay
+}
+
+fun getCategorySpinnerList(context: Context): MutableList<String>{
+    val categoryOptions = context.resources.getStringArray(R.array.category_options);
+    Log.d(tag, "options are ${categoryOptions}")
+    return categoryOptions.toMutableList()
+}
+
+fun testing(){
+
 }

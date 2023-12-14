@@ -33,7 +33,10 @@ class SavedPostsActivity : AppCompatActivity() {
         }
 
 //        loggedInUser = getLoggedInUser(this)
-        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+//        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        AuthenticationHelper.instance!!.loggedInUser.observe(this){user ->
+            loggedInUser = user
+        }
 //        if(loggedInUser != null){
 //            var savedPosts :MutableList<Post> = mutableListOf()
 //            if (loggedInUser != null) {

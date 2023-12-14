@@ -7,21 +7,25 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.MainActivity
 import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class AuthenticationHelper(val context: Context) {
 //    var isLoggedIn: Boolean = false
-    var loggedInUser: User? = null
+//    var loggedInUser: User? = null
+    var loggedInUser: MutableLiveData<User?> = MutableLiveData<User?>(null)
     val tag: String = "AuthenHelper"
 //    private lateinit var firebaseAuth : FirebaseAuth
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val userRepository: UserRepository = UserRepository()
+    lateinit var snapshotListener: ListenerRegistration
 
     companion object {
         var instance: AuthenticationHelper? = null
@@ -97,11 +101,13 @@ class AuthenticationHelper(val context: Context) {
                         val userEmail: String? = firebaseAuth.currentUser?.email
                         if(userEmail == null){
                             Log.d(tag, "userEmail is null")
-                            loggedInUser = null
+                            loggedInUser.postValue(null)
                         }
                         else{
                             Log.d(tag, "userEmail is ${userEmail}")
-                            loggedInUser = userRepository.findUserByEmail(userEmail)
+                            loggedInUser.postValue(userRepository.findUserByEmail(userEmail))
+
+                            snapshotListener = userRepository.getUserSnapshotListener(userEmail, loggedInUser)
                         }
 //                        loggedInUser = getLoggedInUser()
                         Log.d(tag, "logged in user is ${loggedInUser}")
@@ -119,7 +125,8 @@ class AuthenticationHelper(val context: Context) {
     fun signOut(){
         Log.d(tag, "signing out")
         firebaseAuth.signOut()
-        loggedInUser = null
+        loggedInUser.postValue(null)
+        snapshotListener.remove()
 
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra("REFERER", "SignOut")

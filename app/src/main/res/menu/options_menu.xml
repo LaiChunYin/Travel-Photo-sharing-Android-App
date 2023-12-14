@@ -11,9 +11,9 @@
         android:title="Saved Posts" />
 
     <item
-        android:id="@+id/add_post"
-        android:orderInCategory="200"
-        android:title="Add A Post" />
+        android:id="@+id/go_to_my_posts"
+        android:orderInCategory="100"
+        android:title="My Posts" />
 
     <item
         android:id="@+id/followersOrFollowees"

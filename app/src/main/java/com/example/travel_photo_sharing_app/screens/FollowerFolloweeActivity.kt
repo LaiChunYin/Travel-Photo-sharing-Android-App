@@ -42,7 +42,10 @@ class FollowerFolloweeActivity : MainActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.title = "Followers/Followees List"
 
-        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
+            loggedInUser = user
+        }
         Log.d(tag, "in follower/followee, loggedin users is $loggedInUser")
 
 

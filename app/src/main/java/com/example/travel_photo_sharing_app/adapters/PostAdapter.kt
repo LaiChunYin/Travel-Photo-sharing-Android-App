@@ -2,6 +2,7 @@ package com.example.travel_photo_sharing_app.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.example.travel_photo_sharing_app.R
 import com.example.travel_photo_sharing_app.databinding.ItemPostBinding
 import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
+import com.example.travel_photo_sharing_app.utils.CameraImageHelper
 //import com.example.travel_photo_sharing_app.utils.getLoggedInUser
 import com.example.travel_photo_sharing_app.utils.saveDataToSharedPref
 import com.example.travel_photo_sharing_app.utils.sharedPreferences
@@ -67,6 +69,7 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
 //            }
 
             // Assuming you want to display the post type as the title
+            binding.postAuthor.text = post.authorEmail
             binding.postType.text = post.type
             binding.postDescriptionTextView.text = post.description
             binding.postAddressTextView.text = post.address
@@ -74,9 +77,19 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
 //            binding.postCityPostalTextView.text = "${post.city}, ${post.postalCode}"
 //            Glide.with(binding.root.context).load(post.imageUrl).into(binding.postImage)  // for online images
 
-            val imageName = post.imageUrl ?: "default_image"
-            val res = context.resources.getIdentifier(imageName, "drawable", context.packageName)
-            this.binding.postImage.setImageResource(res)
+//            val imageName = post.imageUrl ?: "default_image"
+//            val res = context.resources.getIdentifier(imageName, "drawable", context.packageName)
+//            this.binding.postImage.setImageResource(res)
+            Log.d(tag, "post image is ${post.imageUrl}")
+            val image = post.imageUrl ?: "default_image"
+            if(image == "default_image"){
+                val res = context.resources.getIdentifier(image, "drawable", context.packageName)
+                this.binding.postImage.setImageResource(res)
+            }
+            else{
+                val imgBitmap: Bitmap = CameraImageHelper.base64ToBitmap(image)
+                this.binding.postImage.setImageBitmap(imgBitmap)
+            }
 
 //            Log.d(tag, "savedpost and idfromdb ${savedPosts}, ${post.idFromDb}")
             Log.d(tag, "savedpost and idfromdb ${loggedInUser?.savedPosts}, ${post.idFromDb}")
@@ -100,7 +113,7 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
                 if(this@PostAdapter.loggedInUser != null){
                     Log.i(tag, "${loggedInUser} logged in")
                     val intent = Intent(context, PostDetailActivity::class.java)
-                    intent.putExtra("POST", post)
+                    intent.putExtra("POST", post.idFromDb) // pass only the email since passing the whole object is too large, which will cause an error
                     context.startActivity(intent)
                 }
                 else {

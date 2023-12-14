@@ -31,7 +31,7 @@
 
 
             <TextView
-                android:id="@+id/post_title_text_view"
+                android:id="@+id/post_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -40,7 +40,7 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/post_date_text_view"
+                android:id="@+id/post_created_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="May 23, 2022"

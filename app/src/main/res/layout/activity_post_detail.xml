@@ -42,7 +42,7 @@
 
         <!-- Availability Tag -->
         <TextView
-            android:id="@+id/post_availability_tag"
+            android:id="@+id/post_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -78,26 +78,26 @@
             android:layout_height="wrap_content"
             android:stretchColumns="*">
 
-            <TableRow
-                android:layout_marginTop="16dp">
+<!--            <TableRow-->
+<!--                android:layout_marginTop="16dp">-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Author Name: "
-                    android:padding="8dp"
-                    android:textSize="16sp"/>
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Author Name: "-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textSize="16sp"/>-->
 
-                <TextView
-                    android:id="@+id/author_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="8dp"
-                    android:textSize="16sp"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/author_name"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textSize="16sp"/>-->
 
-            </TableRow>
+<!--            </TableRow>-->
 
             <TableRow>
                 <TextView
@@ -117,26 +117,44 @@
                     android:textSize="16sp"/>
             </TableRow>
 
-            <TableRow>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Author Phone Number: "
-                    android:padding="8dp"
-                    android:textSize="16sp"/>
+<!--            <TableRow>-->
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Author Phone Number: "-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textSize="16sp"/>-->
 
-                <TextView
-                    android:id="@+id/author_phone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="8dp"
-                    android:textSize="16sp"/>
-            </TableRow>
+<!--                <TextView-->
+<!--                    android:id="@+id/author_phone"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textSize="16sp"/>-->
+<!--            </TableRow>-->
 
         </TableLayout>
 
+        <Button
+            android:id="@+id/follow_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Follow User"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"/>
+        <Button
+            android:id="@+id/unfollow_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UnFollow User"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"/>
         <Button
             android:id="@+id/return_btn"
             android:layout_width="wrap_content"

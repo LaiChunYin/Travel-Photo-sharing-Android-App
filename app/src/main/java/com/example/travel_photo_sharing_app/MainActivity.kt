@@ -66,13 +66,17 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 //        loggedInUser = getLoggedInUser(this)
 //        loggedInUser = authenticationHelper.getLoggedInUser()
         AuthenticationHelper.getInstance(this)
-        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
+            loggedInUser = user
+        }
         Log.d(tag, "in main, loggedin users is $loggedInUser")
 
         Log.i(tag, "post to be displayed ${allPosts}")
 
         setSupportActionBar(this.binding.menuToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.title = "Travel Photo Sharing App"
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -147,7 +151,10 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
 //        loggedInUser = getLoggedInUser(this)
 //        loggedInUser = authenticationHelper.getLoggedInUser()
-        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        //        loggedInUser = AuthenticationHelper.instance!!.loggedInUser
+        AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
+            loggedInUser = user
+        }
         allPosts.clear()
 //        allPosts = initializePosts(this)
 //        initializePosts(this)
@@ -172,7 +179,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d(tag, "logged in user in menu ${loggedInUser}")
         if(loggedInUser == null) {
             menu.findItem(R.id.go_to_saved_posts).setVisible(false)
-            menu.findItem(R.id.add_post).setVisible(false)
+            menu.findItem(R.id.go_to_my_posts).setVisible(false)
             menu.findItem(R.id.followersOrFollowees).setVisible(false)
             menu.findItem(R.id.logout).setVisible(false)
         }
@@ -196,7 +203,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
                 return true
             }
-            R.id.add_post -> {
+            R.id.go_to_my_posts -> {
                 if(loggedInUser != null) {
                     val intent = Intent(this, MyPostsActivity::class.java)
                     intent.putExtra("USER", loggedInUser?.username)
@@ -291,7 +298,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if(loggedInUser != null){
             Log.i(tag, "${loggedInUser} logged in")
             val intent = Intent(this@MainActivity, PostDetailActivity::class.java)
-            intent.putExtra("POST", post)
+            intent.putExtra("POST", post!!.idFromDb)
             this@MainActivity.startActivity(intent)
         }
         else {

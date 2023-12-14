@@ -9,6 +9,7 @@ open class User(
     val username: String,
 //    val savedPosts: MutableList<Post> = mutableListOf(),
     val savedPosts: MutableList<String> = mutableListOf(),
+    val createdPosts: MutableList<String> = mutableListOf(),
     val followedBy: MutableList<String> = mutableListOf(), // use email as the id
     val following: MutableList<String> = mutableListOf(),
 ): Serializable {
@@ -19,6 +20,7 @@ open class User(
         document["username"] as String,
 //        document["savedPosts"] as MutableList<Post>,
         document["savedPosts"] as MutableList<String>,
+        document["createdPosts"] as MutableList<String>,
         document["followedBy"] as MutableList<String>,
         document["following"] as MutableList<String>
         )
@@ -27,6 +29,6 @@ open class User(
     }
 
     override fun toString(): String {
-        return "User is ($email, $username, $password, ${followedBy}, ${following}, $savedPosts)"
+        return "User is ($email, $username, $password, ${followedBy}, ${following}, ${createdPosts}, $savedPosts)"
     }
 }

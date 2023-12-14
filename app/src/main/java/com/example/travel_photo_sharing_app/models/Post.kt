@@ -6,15 +6,15 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 class Post(
-    val address: String,
-    val type: String,
+    var address: String,
+    var type: String,
 //    val author: User,
     val authorEmail: String,
-    val description: String,
-    val visibleToGuest: Boolean,
-    val latitude: Double,
-    val longitude: Double,
-    val imageUrl: String? = null,
+    var description: String,
+    var visibleToGuest: Boolean,
+    var latitude: Double,
+    var longitude: Double,
+    var imageUrl: String? = null,
     val createdAt: String = LocalDateTime.now().toString(),
     val idFromDb: String? = null
 ): Serializable {
@@ -27,7 +27,7 @@ class Post(
         document.data!!["visibleToGuest"] as Boolean,
         document.data!!["latitude"].toString().toDouble(),
         document.data!!["longitude"].toString().toDouble(),
-        document.data!!["imageUrl"] as String,
+        document.data!!["imageUrl"] as String?,
         document.data!!["createdAt"] as String,
         document.id!!
 //        document["address"] as String,

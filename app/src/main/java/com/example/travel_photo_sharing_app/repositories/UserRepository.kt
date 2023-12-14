@@ -1,13 +1,18 @@
 package com.example.travel_photo_sharing_app.repositories
 
+import android.os.Build.VERSION_CODES.P
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
+import com.google.android.play.integrity.internal.f
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.ListenerRegistration
 
 class UserRepository {
     private val tag = "User Repo"
@@ -21,9 +26,11 @@ class UserRepository {
     private val FIELD_FOLLOWED_BY = "followedBy"
     private val FIELD_FOLLOWING = "following"
     private val FIELD_PHONE = "phoneNumber"
+    private val postRepository = PostRepository()
 
     var allFollowers : MutableLiveData<List<User>> = MutableLiveData<List<User>>()
     var allFollowees : MutableLiveData<List<User>> = MutableLiveData<List<User>>()
+    var allMyPosts : MutableLiveData<List<Post>> = MutableLiveData<List<Post>>()
 
     fun addUserToDB(newUser : User){
         try{
@@ -51,29 +58,6 @@ class UserRepository {
             Log.e(tag, "addUserToDB: Couldn't add user document $ex", )
         }
     }
-
-//    fun updateUserProfile(userToUpdate : User){
-//        try{
-//            val data : MutableMap<String, Any> = HashMap()
-//
-//            data[FIELD_PASSWORD] = userToUpdate.password
-//            data[FIELD_PHONE] = userToUpdate.phoneNumber
-//            data[FIELD_NAME] = userToUpdate.name
-//
-//            db.collection(COLLECTION_USERS)
-//                .document(userToUpdate.email)
-//                .update(data)
-//                .addOnSuccessListener { docRef ->
-//                    Log.d(tag, "updateUserProfile: User document successfully updated $docRef")
-//                }
-//                .addOnFailureListener { ex ->
-//                    Log.e(tag, "updateUserProfile: Unable to update user document due to exception : $ex", )
-//                }
-//
-//        }catch (ex : Exception){
-//            Log.e(tag, "updateUserProfile: Couldn't update user document $ex", )
-//        }
-//    }
 
     suspend fun findUserByEmail(email: String): User? {
         return try{
@@ -156,7 +140,7 @@ class UserRepository {
         try {
             db.collection(COLLECTION_USERS)
                 .document(followerEmail)
-                .update(FIELD_FOLLOWED_BY, FieldValue.arrayRemove(followeeEmail))
+                .update(FIELD_FOLLOWING, FieldValue.arrayRemove(followeeEmail))
                 .addOnSuccessListener {
                     Log.d(tag, "${followerEmail} unfollowed ${followeeEmail}")
                 }
@@ -166,7 +150,7 @@ class UserRepository {
 
             db.collection(COLLECTION_USERS)
                 .document(followeeEmail)
-                .update(FIELD_FOLLOWING, FieldValue.arrayRemove(followerEmail))
+                .update(FIELD_FOLLOWED_BY, FieldValue.arrayRemove(followerEmail))
                 .addOnSuccessListener {
                     Log.d(tag, "${followeeEmail} unfollowed by ${followerEmail}")
                 }
@@ -244,6 +228,63 @@ class UserRepository {
         }catch (ex : Exception){
             Log.e(tag, "unSavePost: Couldn't unSave post $ex", )
         }
+
+    }
+
+    suspend fun getAllMyPosts(postIds: MutableList<String>) {
+        Log.d(tag, "in getAllMyPosts ${postIds}")
+        try {
+            val result = mutableListOf<Post>()
+            for(id in postIds){
+                result.add(postRepository.getPostById(id)!!)
+            }
+            allMyPosts.postValue(result)
+        }catch (ex : Exception){
+            Log.e(tag, "getAllMyPosts: Couldn't get all my posts $ex", )
+        }
+
+    }
+
+    fun getUserSnapshotListener(email: String, userLiveData: MutableLiveData<User?>): ListenerRegistration{
+        return db.collection(COLLECTION_USERS)
+            .document(email)
+            .addSnapshotListener(EventListener{ result, error ->
+                Log.d(tag, "in snapshot listener ${result!!.data}, ${result}")
+                if (error != null){
+                    Log.e(tag,
+                        "getUserSnapshotListener: Listening to user ${email} collection failed due to error : $error", )
+                    return@EventListener
+                }
+
+                if (result != null){
+//                    Log.d(tag, "getUserSnapshotListener: Number of documents retrieved : ${result.size()}")
+
+//                    val tempList : MutableList<User> = ArrayList<User>()
+
+//                    for (docChanges in result.documentChanges){
+
+//                        val currentDocument : User = docChanges.document.toObject(Expense::class.java)
+//                        Log.d(tag, "retrieveAllExpenses: currentDocument : $currentDocument")
+//
+//                        when(docChanges.type){
+//                            DocumentChange.Type.ADDED -> {
+//                                //do necessary changes to your local list of objects
+//                                tempList.add(currentDocument)
+//                            }
+//                            DocumentChange.Type.MODIFIED -> {
+//
+//                            }
+//                            DocumentChange.Type.REMOVED -> {
+//
+//                            }
+//                        }
+//                    }
+                    userLiveData.postValue(User(result.data!!))
+
+                }else{
+                    Log.d(tag, "getUserSnapshotListener: No data in the result after updating")
+                }
+            })
 
     }
 }
