@@ -172,6 +172,11 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 //        initializePosts(this)
         postRepository.publicPosts.observe(this){ publicPosts ->
             Log.d(tag, "in observer ${publicPosts}")
+
+            for(p in publicPosts){
+                Log.d(tag,  "marking ${p.address}, id: ${p.idFromDb}")
+            }
+
             postsToBeDisplayed.clear()
             postsToBeDisplayed.addAll(publicPosts)
             postAdapter.notifyDataSetChanged()
@@ -337,7 +342,15 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         return false
     }
 
+    private fun removeAllMarkersOnMap(){
+        Log.d(tag, "removing markers")
+        for((marker, Post)in markerPostMap){
+            Log.d(tag, "removing marker ${marker}")
+            marker.remove()
+        }
+    }
     private fun addPostsToMap(posts: MutableList<Post>){
+        removeAllMarkersOnMap()
         Log.d(tag, "adding posts to map")
         var cameraSet = false  // set the camera position to the first post by default
 
