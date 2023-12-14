@@ -134,6 +134,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         liveDataPosts.observe(this, Observer { posts ->
             postsToBeDisplayed.clear()
             postsToBeDisplayed.addAll(posts)
+            addPostsToMap(postsToBeDisplayed)
             postAdapter.notifyDataSetChanged()
         })
     }
