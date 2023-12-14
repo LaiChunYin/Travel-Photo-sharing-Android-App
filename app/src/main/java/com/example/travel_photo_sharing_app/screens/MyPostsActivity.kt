@@ -100,13 +100,15 @@ class MyPostsActivity : MainActivity() {
             loggedInUser = user
 
             lifecycleScope.launch {
-                Log.d(tag, "getting my posts ${loggedInUser!!.createdPosts}")
-                userRepository.getAllMyPosts(loggedInUser!!.createdPosts)
-                userRepository.allMyPosts.observe(this@MyPostsActivity) {myPosts ->
-                    Log.d(tag, "myPosts are ${myPosts}")
-                    datasource.clear()
-                    datasource.addAll(myPosts)
-                    adapter.notifyDataSetChanged()
+                if(loggedInUser != null){
+                    Log.d(tag, "getting my posts ${loggedInUser!!.createdPosts}")
+                    userRepository.getAllMyPosts(loggedInUser!!.createdPosts)
+                    userRepository.allMyPosts.observe(this@MyPostsActivity) {myPosts ->
+                        Log.d(tag, "myPosts are ${myPosts}")
+                        datasource.clear()
+                        datasource.addAll(myPosts)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
             }
         }
