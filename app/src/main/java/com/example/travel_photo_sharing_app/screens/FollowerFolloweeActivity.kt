@@ -1,5 +1,6 @@
 package com.example.travel_photo_sharing_app.screens;
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,15 +19,11 @@ import kotlinx.coroutines.launch
 class FollowerFolloweeActivity : MainActivity() {
     private lateinit var binding: ActivityFollowerFolloweeBinding
     private lateinit var followerFolloweeAdapter: FollowerFolloweeAdapter
-//    private lateinit var sharedPreferences: SharedPreferences
-//    private lateinit var prefEditor: SharedPreferences.Editor
     private var usersToBeDisplayed: MutableList<User> = mutableListOf()
     private var allFollowers: MutableList<User> = mutableListOf()
     private var allFollowees: MutableList<User> = mutableListOf()
     private var followers: MutableList<User> = mutableListOf()
     private var followees: MutableList<User> = mutableListOf()
-    //    private var loggedInUserName: String = ""
-//    private var loggedInUser: User? = null
     val userRepository = UserRepository()
     private var loggedInUser: User? = null
     private lateinit var followerAdapter: FollowerFolloweeAdapter
@@ -38,9 +35,9 @@ class FollowerFolloweeActivity : MainActivity() {
         binding = ActivityFollowerFolloweeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(this.binding.menuToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "Followers/Followees List"
+//        setSupportActionBar(this.binding.menuToolbar)
+//        supportActionBar?.setDisplayShowTitleEnabled(true)
+//        supportActionBar?.title = "Followers/Followees List"
 
         loggedInUser = AuthenticationHelper.instance!!.loggedInUser
         Log.d(tag, "in follower/followee, loggedin users is $loggedInUser")
@@ -68,7 +65,7 @@ class FollowerFolloweeActivity : MainActivity() {
 
 
         binding.followeeBtn.setOnClickListener{
-            binding.followeeBtn.setBackgroundColor(getColor(R.color.light_blue))
+            binding.followeeBtn.setBackgroundColor(Color.parseColor("#FFA500"))
             binding.followerBtn.setBackgroundColor(getColor(R.color.light_grey))
             binding.followeeRv.visibility = View.VISIBLE
             binding.followerRv.visibility = View.GONE
@@ -76,7 +73,7 @@ class FollowerFolloweeActivity : MainActivity() {
 
         binding.followerBtn.setOnClickListener{
             binding.followeeBtn.setBackgroundColor(getColor(R.color.light_grey))
-            binding.followerBtn.setBackgroundColor(getColor(R.color.light_blue))
+            binding.followerBtn.setBackgroundColor(Color.parseColor("#FFA500"))
             binding.followeeRv.visibility = View.GONE
             binding.followerRv.visibility = View.VISIBLE
         }

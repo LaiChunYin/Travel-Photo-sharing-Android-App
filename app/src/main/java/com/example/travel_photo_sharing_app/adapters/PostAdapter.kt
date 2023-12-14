@@ -191,4 +191,5 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
         return posts.size
     }
 
+
 }

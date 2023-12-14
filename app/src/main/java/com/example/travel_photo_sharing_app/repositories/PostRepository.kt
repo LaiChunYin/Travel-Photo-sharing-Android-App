@@ -84,6 +84,62 @@ class PostRepository {
             Log.e(tag, "addPost failed: $ex", )
         }
     }
+    fun getPostsByType(type: String): MutableLiveData<List<Post>> {
+        val postsByType: MutableLiveData<List<Post>> = MutableLiveData()
+
+        db.collection(COLLECTION_POSTS)
+            .whereEqualTo("type", type)
+            .get()
+            .addOnSuccessListener { documents ->
+                val posts: MutableList<Post> = mutableListOf()
+                for (document in documents) {
+                    try {
+                        document.data?.let {
+                            val post = Post(document)
+                            posts.add(post)
+                        }
+                    } catch (e: Exception) {
+                        Log.e(tag, "Error converting document to Post", e)
+                    }
+                }
+                postsByType.value = posts
+            }
+            .addOnFailureListener { exception ->
+                Log.e(tag, "Error getting documents by type: $type", exception)
+            }
+
+        return postsByType
+    }
+
+    fun getPostsByAddress(searchAddress: String): MutableLiveData<List<Post>> {
+        val postsByAddress: MutableLiveData<List<Post>> = MutableLiveData()
+
+        db.collection(COLLECTION_POSTS)
+            .whereEqualTo("address", searchAddress)
+            .get()
+            .addOnSuccessListener { documents ->
+                val posts: MutableList<Post> = mutableListOf()
+                for (document in documents) {
+                    try {
+                        document.data?.let {
+                            val post = Post(document)
+                            posts.add(post)
+                        }
+                    } catch (e: Exception) {
+                        Log.e(tag, "Error converting document to Post", e)
+                    }
+                }
+                postsByAddress.value = posts
+            }
+            .addOnFailureListener { exception ->
+                Log.e(tag, "Error getting documents by address: $searchAddress", exception)
+                postsByAddress.value = emptyList() // Set empty list in case of failure
+            }
+
+        return postsByAddress
+    }
+
+
 
 
 }

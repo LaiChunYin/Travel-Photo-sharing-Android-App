@@ -20,16 +20,18 @@ class Post(
 ): Serializable {
 
     constructor(document: DocumentSnapshot): this(
-        document.data!!["address"] as String,
-        document.data!!["type"] as String,
-        document.data!!["authorEmail"] as String,
-        document.data!!["description"] as String,
-        document.data!!["visibleToGuest"] as Boolean,
-        document.data!!["latitude"].toString().toDouble(),
-        document.data!!["longitude"].toString().toDouble(),
-        document.data!!["imageUrl"] as String,
-        document.data!!["createdAt"] as String,
-        document.id!!
+        address = document.getString("address") ?: "No Address",
+        type = document.getString("type") ?: "No Type",
+        authorEmail = document.getString("authorEmail") ?: "No Author Email",
+        description = document.getString("description") ?: "No Description",
+        visibleToGuest = document.getBoolean("visibleToGuest") ?: false,
+        latitude = document.getDouble("latitude") ?: 0.0,
+        longitude = document.getDouble("longitude") ?: 0.0,
+        imageUrl = document.getString("imageUrl"),
+        createdAt = document.getString("createdAt") ?: LocalDateTime.now().toString(),
+        idFromDb = document.id
+
+
 //        document["address"] as String,
 //        document["type"] as String,
 //        document["authorEmail"] as String,

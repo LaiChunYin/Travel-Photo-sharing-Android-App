@@ -39,6 +39,7 @@ class PostDetailActivity : AppCompatActivity() {
             if (post != null) {
                 binding.postAddress.setText(post.address)
                 binding.postDescription.setText(post.description)
+                binding.authorEmail.setText(post.authorEmail)
 
 //                binding.numberOfBathrooms.setText(post.numOfBathrooms.toString())
 //                binding.numberOfBedrooms.setText(post.numOfBedrooms.toString())

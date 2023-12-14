@@ -2,6 +2,7 @@ package com.example.travel_photo_sharing_app
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.travel_photo_sharing_app.R
@@ -95,16 +97,19 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d(tag, "view is ${view}")
             Log.d(tag, "view clicked ${toggleButton}, ${checkedId}, ${isChecked}")
             if(view == "List"){
-                binding.listViewBtn.setBackgroundColor(getColor(R.color.light_blue))
                 binding.mapViewBtn.setBackgroundColor(getColor(R.color.light_grey))
+                binding.listViewBtn.setBackgroundColor(Color.parseColor("#FFA500"))
 
+
+//                binding.tvRecommendedForYou.visibility = View.VISIBLE
                 binding.postsRecyclerView.visibility = View.VISIBLE
                 mapFragment.view?.visibility = View.GONE
             }
             else if(view == "Map"){
                 binding.listViewBtn.setBackgroundColor(getColor(R.color.light_grey))
-                binding.mapViewBtn.setBackgroundColor(getColor(R.color.light_blue))
+                binding.mapViewBtn.setBackgroundColor(Color.parseColor("#FFA500"));
 
+//                binding.tvRecommendedForYou.visibility = View.GONE
                 binding.postsRecyclerView.visibility = View.GONE
                 mapFragment.view?.visibility = View.VISIBLE
             }
@@ -122,7 +127,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         binding.searchButton.setOnClickListener {
-            performSearch(binding.searchEditText.text.toString())
+            performLocalSearch(binding.searchEditText.text.toString())
         }
 
         binding.travelImage.setOnClickListener {
@@ -140,9 +145,22 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Function to trigger search with type
     private fun triggerSearchWithType(type: String) {
-        binding.searchEditText.setText(type)
-        performSearch(type)
+        performSearchByType(type)
     }
+
+    private fun performSearchByType(type: String) {
+        val liveDataPosts = postRepository.getPostsByType(type)
+
+        liveDataPosts.observe(this, Observer { posts ->
+            postsToBeDisplayed.clear()
+            postsToBeDisplayed.addAll(posts)
+            postAdapter.notifyDataSetChanged()
+        })
+    }
+
+
+
+
 
     override fun onResume() {
 //        loggedInUser = getLoggedInUser(this)
@@ -254,15 +272,30 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun performSearch(query: String) {
-        val filteredPosts = if(query != "") allPosts.filter { post ->
-            post.matchesQuery(query)
-        } else allPosts
-        Log.i(tag, "filtered posts: $filteredPosts")
-        postsToBeDisplayed.clear()
-        postsToBeDisplayed.addAll(filteredPosts)
-        postAdapter.notifyDataSetChanged()
+    private fun performLocalSearch(searchText: String) {
+        postRepository.getAllPublicPosts() // Ensure the latest public posts are fetched
+
+        postRepository.publicPosts.observe(this, Observer { posts ->
+            // Perform the local filtering
+            val searchLowerCase = searchText.lowercase()
+            val filteredPosts = posts.filter { post ->
+                post.address.lowercase().contains(searchLowerCase) ||
+                        post.authorEmail.lowercase().contains(searchLowerCase)
+                // Add more conditions here if needed
+            }
+
+            // Update UI based on filtered posts
+            if (filteredPosts.isEmpty()) {
+                Toast.makeText(this, "No matching posts found", Toast.LENGTH_SHORT).show()
+            } else {
+                postsToBeDisplayed.clear()
+                postsToBeDisplayed.addAll(filteredPosts)
+                postAdapter.notifyDataSetChanged()
+            }
+        })
     }
+
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(tag, "on map ready")
