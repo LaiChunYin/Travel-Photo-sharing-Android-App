@@ -125,16 +125,16 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             performSearch(binding.searchEditText.text.toString())
         }
 
-        binding.condoImage.setOnClickListener {
-            triggerSearchWithType("Condo")
+        binding.travelImage.setOnClickListener {
+            triggerSearchWithType("Travel")
         }
 
-        binding.houseImage.setOnClickListener {
-            triggerSearchWithType("House")
+        binding.foodImage.setOnClickListener {
+            triggerSearchWithType("Food")
         }
 
-        binding.apartmentImage.setOnClickListener {
-            triggerSearchWithType("Apartment")
+        binding.selfieImage.setOnClickListener {
+            triggerSearchWithType("Selfie")
         }
     }
 

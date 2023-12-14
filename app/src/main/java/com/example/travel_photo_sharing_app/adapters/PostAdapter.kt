@@ -67,7 +67,7 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
 //            }
 
             // Assuming you want to display the post type as the title
-            binding.postTitleTextView.text = post.type
+            binding.postType.text = post.type
             binding.postDescriptionTextView.text = post.description
             binding.postAddressTextView.text = post.address
             binding.postId.text = post.idFromDb
@@ -83,14 +83,14 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
 //            if(loggedInUser != null && savedPosts.contains(post.idFromDb)){
             if(loggedInUser != null && loggedInUser!!.savedPosts.contains(post.idFromDb)){
                 binding.removeBtn.visibility = View.VISIBLE
-                binding.shortListBtn.visibility = View.GONE
+                binding.savePostBtn.visibility = View.GONE
             }
             else if(loggedInUser != null){
-                binding.shortListBtn.visibility = View.VISIBLE
+                binding.savePostBtn.visibility = View.VISIBLE
                 binding.removeBtn.visibility = View.GONE
             }
             else {
-                binding.shortListBtn.visibility = View.GONE
+                binding.savePostBtn.visibility = View.GONE
                 binding.removeBtn.visibility = View.GONE
             }
 
@@ -111,7 +111,7 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
                 }
             }
 
-            binding.shortListBtn.setOnClickListener {
+            binding.savePostBtn.setOnClickListener {
 //                loggedInUser = Gson().fromJson(sharedPreferences.getString(loggedInUser?.username, ""), User::class.java)
 //                loggedInUser!!.savedPosts.add(post)
 //                saveDataToSharedPref(context, "USERS", loggedInUser!!.username, loggedInUser!!, true)
@@ -162,18 +162,18 @@ class PostAdapter(private var posts: MutableList<Post>, private var loggedInUser
             }
 
             // Set the availability tag based on the availableForRent post
-            val availabilityTag = binding.postAvailabilityTag
-            if (post.visibleToGuest) {
-                // Post is available
-                availabilityTag.text = context.getString(R.string.available)
-                availabilityTag.visibility = View.VISIBLE
-                availabilityTag.setBackgroundResource(R.drawable.available_tag_background) // Green background for available
-            } else {
-                // Post is not available
-                availabilityTag.text = context.getString(R.string.not_available)
-                availabilityTag.visibility = View.VISIBLE
-                availabilityTag.setBackgroundResource(R.drawable.not_available_tag_background) // Red background for not available
-            }
+//            val availabilityTag = binding.postAvailabilityTag
+//            if (post.visibleToGuest) {
+//                // Post is available
+//                availabilityTag.text = context.getString(R.string.available)
+//                availabilityTag.visibility = View.VISIBLE
+//                availabilityTag.setBackgroundResource(R.drawable.available_tag_background) // Green background for available
+//            } else {
+//                // Post is not available
+//                availabilityTag.text = context.getString(R.string.not_available)
+//                availabilityTag.visibility = View.VISIBLE
+//                availabilityTag.setBackgroundResource(R.drawable.not_available_tag_background) // Red background for not available
+//            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {

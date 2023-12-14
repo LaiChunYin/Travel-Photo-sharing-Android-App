@@ -44,10 +44,10 @@ class MyPostAdapter(
 
         val currPost: Post = postList.get(position)
 
-        val tvTitle = holder.itemView.findViewById<TextView>(R.id.tvTitle)
+        val tvTitle = holder.itemView.findViewById<TextView>(R.id.post_address)
         tvTitle.text = currPost.address
 
-        val tvDetail = holder.itemView.findViewById<TextView>(R.id.tvDetail)
+        val tvDetail = holder.itemView.findViewById<TextView>(R.id.post_type)
         tvDetail.text = currPost.type
 
     }

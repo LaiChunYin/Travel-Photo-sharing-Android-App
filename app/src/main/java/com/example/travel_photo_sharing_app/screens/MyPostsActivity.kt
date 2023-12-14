@@ -60,9 +60,9 @@ class MyPostsActivity : MainActivity() {
             startActivity(intent)
         }
 
-        binding.rvItems.adapter = adapter
-        binding.rvItems.layoutManager = LinearLayoutManager(this)
-        binding.rvItems.addItemDecoration(
+        binding.myPostsRv.adapter = adapter
+        binding.myPostsRv.layoutManager = LinearLayoutManager(this)
+        binding.myPostsRv.addItemDecoration(
             DividerItemDecoration(
                 this,
                 LinearLayoutManager.VERTICAL
