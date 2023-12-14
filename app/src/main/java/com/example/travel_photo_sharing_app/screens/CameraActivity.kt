@@ -50,6 +50,10 @@ class CameraActivity : AppCompatActivity() {
         binding.btnTakePhoto.setOnClickListener {
             savePhotoToDeviceMemory()
         }
+
+        binding.btnReturn.setOnClickListener {
+            finish()
+        }
     }
 
 
@@ -101,6 +105,7 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
         )
+
     }
 
     private fun hasPermissions():Boolean {
