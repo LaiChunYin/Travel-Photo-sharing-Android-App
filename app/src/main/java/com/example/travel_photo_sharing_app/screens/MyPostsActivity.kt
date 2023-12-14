@@ -96,7 +96,8 @@ class MyPostsActivity : MainActivity() {
         val selectedPost: Post = datasource[position]
         val intent = Intent(this, AddPostActivity::class.java)
         intent.putExtra("USER", loggedInUser!!.username)
-        intent.putExtra("POST_DATA", selectedPost)
+//        intent.putExtra("POST_DATA", selectedPost)
+        intent.putExtra("POST", selectedPost.idFromDb) // pass only the email since passing the whole object is too large, which will cause an error
         intent.putExtra("INDEX", position)
 
         startActivity(intent)
@@ -104,8 +105,11 @@ class MyPostsActivity : MainActivity() {
 
 
     private fun deletePost(position: Int) {
+        val postToBeDeleted = datasource[position]
+        Log.d(tag, "deleting post ${postToBeDeleted} by ${loggedInUser!!.email}")
+        postRepository.deletePost(postToBeDeleted.idFromDb!!, loggedInUser!!.email)
         datasource.removeAt(position)
-        saveDataToSharedPref(this, "POSTS", loggedInUser!!.username, datasource, true )
+//        saveDataToSharedPref(this, "POSTS", loggedInUser!!.username, datasource, true )
         adapter.notifyDataSetChanged()
     }
 

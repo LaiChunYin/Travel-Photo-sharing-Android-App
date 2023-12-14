@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
+import org.checkerframework.checker.units.qual.C
 import java.time.LocalDateTime
 
 class PostRepository {
@@ -143,6 +144,35 @@ class PostRepository {
         }catch (ex : Exception){
             Log.e(tag, "updatePost failed: $ex", )
         }
+    }
+
+    fun deletePost(postId: String, authorEmail: String){
+            Log.d(tag, "in deletePost ${postId}, ${authorEmail}")
+            try {
+                db.collection(COLLECTION_USERS)
+                    .document(authorEmail)
+                    .update("createdPosts", FieldValue.arrayRemove(postId))
+                    .addOnSuccessListener {
+                        Log.d(tag, "deleted post id ${postId}")
+
+                        db.collection(COLLECTION_POSTS)
+                            .document(postId)
+                            .delete()
+                            .addOnSuccessListener {
+                                Log.d(tag, "post ${postId} deleted by ${authorEmail}")
+                            }
+                            .addOnFailureListener {
+                                Log.d(tag, "failed to delete post ${postId}")
+                            }
+                    }
+                    .addOnFailureListener {
+                        Log.d(tag, "failed to delete post ${postId}")
+                    }
+
+            }catch (ex : Exception){
+                Log.e(tag, "unSavePost: Couldn't delete post $ex", )
+            }
+
     }
 
 
