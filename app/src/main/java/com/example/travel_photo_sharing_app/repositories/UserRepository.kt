@@ -163,7 +163,7 @@ class UserRepository {
         Log.d(tag, "in getAllFollowers ${userEmail}")
         try {
             val followers = mutableListOf<User>()
-            val followerEmails = findUserByEmail(userEmail)!!.following
+            val followerEmails = findUserByEmail(userEmail)!!.followedBy
             for(email in followerEmails){
                 followers.add(findUserByEmail(email)!!)
             }
@@ -178,7 +178,7 @@ class UserRepository {
         Log.d(tag, "in getAllFollowees ${userEmail}")
         try {
             val followees = mutableListOf<User>()
-            val followeeEmails = findUserByEmail(userEmail)!!.followedBy
+            val followeeEmails = findUserByEmail(userEmail)!!.following
             for(email in followeeEmails){
                 followees.add(findUserByEmail(email)!!)
             }
