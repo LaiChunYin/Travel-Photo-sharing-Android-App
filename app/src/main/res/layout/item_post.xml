@@ -59,10 +59,9 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/post_date_text_view"
+            android:id="@+id/post_created_at"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="May 23, 2022"
             android:textSize="14sp"
             android:textColor="#FF0000" />
 

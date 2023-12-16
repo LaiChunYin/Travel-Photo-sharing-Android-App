@@ -20,6 +20,7 @@ import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
 import com.example.travel_photo_sharing_app.utils.LocationHelper
 import com.example.travel_photo_sharing_app.utils.getCategorySpinnerList
+//import com.example.travel_photo_sharing_app.utils.postRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -28,7 +29,7 @@ class AddPostActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddPostBinding
     private var loggedInUser: User? = null
-    private var postRepository = PostRepository()
+//    private var postRepository = PostRepository()
     private lateinit var locationHelper: LocationHelper
 
     val tag = "Add Post"
@@ -76,7 +77,7 @@ class AddPostActivity : AppCompatActivity() {
                 postId = intent.getStringExtra("POST")!!
                 Log.d(tag, "add post intent post id is ${postId}")
 
-                selectedPost = postRepository.getPostById(postId!!)
+                selectedPost = PostRepository.getPostById(postId!!)
                 Log.i(tag, "selected post here $selectedPost")
 
                 binding.address.setText(selectedPost!!.address)
@@ -229,12 +230,12 @@ class AddPostActivity : AppCompatActivity() {
             postToEdit.imageUrl = base64Img!!
             Log.d(tag, "post to update is ${postToEdit}")
 
-            postRepository.updatePost(selectedPost.idFromDb!!, postToEdit)
+            PostRepository.updatePost(selectedPost.idFromDb!!, postToEdit)
         }
         // create new post
         else {
             var postToAdd = Post(address!!, type!!, authorEmail!!, desc!!, visibleToGuest!!, latitude!!, longitude!!, base64Img!!)
-            postRepository.addPost(postToAdd)
+            PostRepository.addPost(postToAdd)
         }
         Snackbar.make(binding.addPostParentLayout, "Data Saved", Snackbar.LENGTH_LONG).show()
         finish()

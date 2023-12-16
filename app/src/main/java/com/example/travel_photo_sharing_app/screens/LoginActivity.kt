@@ -41,6 +41,15 @@ open class LoginActivity : AppCompatActivity() {
             val email = this.binding.emailInput.text.toString()
             val password = this.binding.passwordInput.text.toString()
 
+            if(email == "") {
+                Snackbar.make(binding.root, "Please enter your email", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if(password == "") {
+                Snackbar.make(binding.root, "Please enter your password", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch {
                 AuthenticationHelper.instance!!.signIn(email, password)
             }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.travel_photo_sharing_app.R
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
+import com.example.travel_photo_sharing_app.utils.formatTimeString
 
 
 class MyPostAdapter(
@@ -52,8 +53,8 @@ class MyPostAdapter(
         val tvAddress = holder.itemView.findViewById<TextView>(R.id.post_address)
         tvAddress.text = currPost.address
 
-        val tvCreated = holder.itemView.findViewById<TextView>(R.id.post_created_time)
-        tvCreated.text = currPost.createdAt
+        val tvCreatedAt = holder.itemView.findViewById<TextView>(R.id.post_created_at)
+        tvCreatedAt.text = formatTimeString(currPost.createdAt)
 
         val image = currPost.imageUrl ?: "default_image"
         if(image == "default_image"){

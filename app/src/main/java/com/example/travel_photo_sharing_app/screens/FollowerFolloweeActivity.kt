@@ -23,7 +23,7 @@ class FollowerFolloweeActivity : MainActivity() {
     private var allFollowees: MutableList<User> = mutableListOf()
     private var followers: MutableList<User> = mutableListOf()
     private var followees: MutableList<User> = mutableListOf()
-    val userRepository = UserRepository()
+//    val userRepository = UserRepository()
     private var loggedInUser: User? = null
     private lateinit var followerAdapter: FollowerFolloweeAdapter
     private lateinit var followeeAdapter: FollowerFolloweeAdapter
@@ -86,17 +86,17 @@ class FollowerFolloweeActivity : MainActivity() {
 
         lifecycleScope.launch {
             Log.d(tag, "getting follwers/followees")
-            userRepository.getAllFollowees(loggedInUser!!.email)
-            userRepository.getAllFollowers(loggedInUser!!.email)
+            UserRepository.getAllFollowees(loggedInUser!!.email)
+            UserRepository.getAllFollowers(loggedInUser!!.email)
         }
-        userRepository.allFollowers.observe(this){users ->
+        UserRepository.allFollowers.observe(this){users ->
             followers.clear()
             followers.addAll(users)
             Log.d(tag, "followers displayed are ${followers}")
             followerAdapter.notifyDataSetChanged()
         }
 
-        userRepository.allFollowees.observe(this) {users ->
+        UserRepository.allFollowees.observe(this) {users ->
             followees.clear()
             followees.addAll(users)
             Log.d(tag, "followees displayed are ${followees}")
@@ -106,7 +106,7 @@ class FollowerFolloweeActivity : MainActivity() {
 
     private fun unfollowBtnHandler(followeeEmail: String) {
         Log.d(tag, "unfollow btn clicked ${loggedInUser}, ${followeeEmail}")
-        userRepository.unfollow(loggedInUser!!.email, followeeEmail)
+        UserRepository.unfollow(loggedInUser!!.email, followeeEmail)
     }
 
 }

@@ -13,6 +13,7 @@ import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
+//import com.example.travel_photo_sharing_app.utils.postRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -21,8 +22,8 @@ class PostDetailActivity : AppCompatActivity() {
     private lateinit var post: Post
     private lateinit var postId: String
     private var loggedInUser: User? = null
-    private val userRepository = UserRepository()
-    private val postRepository = PostRepository()
+//    private val userRepository = UserRepository()
+//    private val postRepository = PostRepository()
     private val tag = "Post detail"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +50,7 @@ class PostDetailActivity : AppCompatActivity() {
                 postId = intent.getStringExtra("POST")!!
                 Log.d(tag, "intent post id is ${postId}")
 
-                post = postRepository.getPostById(postId)!!
+                post = PostRepository.getPostById(postId)!!
                 Log.i(tag, "has post $post")
 
                 if (post != null) {
@@ -84,14 +85,14 @@ class PostDetailActivity : AppCompatActivity() {
                 }
 
                 binding.followBtn.setOnClickListener {
-                    userRepository.follow(loggedInUser!!.email, authorEmail)
+                    UserRepository.follow(loggedInUser!!.email, authorEmail)
                     binding.followBtn.visibility = View.GONE
                     binding.unfollowBtn.visibility = View.VISIBLE
                     Snackbar.make(binding.root, "Followed User ${authorEmail}", Snackbar.LENGTH_LONG).show()
                 }
 
                 binding.unfollowBtn.setOnClickListener {
-                    userRepository.unfollow(loggedInUser!!.email, authorEmail)
+                    UserRepository.unfollow(loggedInUser!!.email, authorEmail)
                     binding.followBtn.visibility = View.VISIBLE
                     binding.unfollowBtn.visibility = View.GONE
                     Snackbar.make(binding.root, "Unfollowed User ${authorEmail}", Snackbar.LENGTH_LONG).show()

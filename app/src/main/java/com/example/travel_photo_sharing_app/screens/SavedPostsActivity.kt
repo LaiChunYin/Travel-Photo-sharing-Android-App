@@ -2,6 +2,7 @@ package com.example.travel_photo_sharing_app.screens
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.example.travel_photo_sharing_app.databinding.ActivitySavedPostsBindin
 import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.repositories.PostRepository
+import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import kotlinx.coroutines.launch
 
@@ -18,9 +20,10 @@ class SavedPostsActivity : MainActivity() {
     private lateinit var binding: ActivitySavedPostsBinding
     private var loggedInUser: User? = null
     override val tag = "Shortlist"
-    private val postRepository = PostRepository()
     private lateinit var adapter: PostAdapter
     private val savedPosts :MutableList<Post> = mutableListOf()
+//    private val postRepository = PostRepository()
+//    private val userRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,9 +65,14 @@ class SavedPostsActivity : MainActivity() {
 
         lifecycleScope.launch {
             for(postId in loggedInUser!!.savedPosts){
-                val post = postRepository.getPostById(postId)
+                val post = PostRepository.getPostById(postId)
                 if(post != null){
                     savedPosts.add(post)
+                }
+                else{
+                    // lazy delete saved posts that had been deleted by the user previously
+                    Log.d(tag, "lazy delete saved post ${postId} by ${loggedInUser!!.email}")
+                    UserRepository.unSavePost(loggedInUser!!.email, postId)
                 }
             }
             adapter.notifyDataSetChanged()

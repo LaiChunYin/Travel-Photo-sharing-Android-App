@@ -71,7 +71,11 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         mapFragment.view?.visibility = View.GONE
 
-        val justLoggedOut = (this.intent.getStringExtra("REFERER") ?: null) == "Signout"
+        val justLoggedIn = (this.intent.getStringExtra("REFERER") ?: null) == "SignIn"
+        if(justLoggedIn){
+            Snackbar.make(findViewById(R.id.root_layout), "Login Successful", Snackbar.LENGTH_LONG).show()
+        }
+        val justLoggedOut = (this.intent.getStringExtra("REFERER") ?: null) == "SignOut"
         if(justLoggedOut){
             Snackbar.make(binding.root, "Logout Successful", Snackbar.LENGTH_LONG).show()
         }
@@ -80,7 +84,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             Snackbar.make(findViewById(R.id.root_layout), "Data erased!", Snackbar.LENGTH_LONG).show()
         }
 
-        postRepository.getAllPublicPosts()
+        PostRepository.getAllPublicPosts()
 
         binding.viewSelection.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
             // Respond to button selection
@@ -131,7 +135,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun performSearchByType(type: String) {
-        val liveDataPosts = postRepository.getPostsByType(type)
+        val liveDataPosts = PostRepository.getPostsByType(type)
 
         liveDataPosts.observe(this, Observer { posts ->
             postsToBeDisplayed.clear()
@@ -140,6 +144,31 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             postAdapter.notifyDataSetChanged()
         })
     }
+
+    private fun performLocalSearch(searchText: String) {
+        PostRepository.getAllPublicPosts() // Ensure the latest public posts are fetched
+
+        PostRepository.publicPosts.observe(this, Observer { posts ->
+            // Perform the local filtering
+            val searchLowerCase = searchText.lowercase()
+            val filteredPosts = posts.filter { post ->
+                post.address.lowercase().contains(searchLowerCase) ||
+                        post.authorEmail.lowercase().contains(searchLowerCase)
+                // Add more conditions here if needed
+            }
+
+            // Update UI based on filtered posts
+            if (filteredPosts.isEmpty()) {
+                Toast.makeText(this, "No matching posts found", Toast.LENGTH_SHORT).show()
+            } else {
+                postsToBeDisplayed.clear()
+                postsToBeDisplayed.addAll(filteredPosts)
+                postAdapter.notifyDataSetChanged()
+            }
+        })
+    }
+
+
 
     override fun onResume() {
         AuthenticationHelper.instance!!.loggedInUser.observe(this) {user ->
@@ -150,7 +179,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         allPosts.clear()
 //        allPosts = initializePosts(this)
 //        initializePosts(this)
-        postRepository.publicPosts.observe(this){ publicPosts ->
+        PostRepository.publicPosts.observe(this){ publicPosts ->
             Log.d(tag, "in observer ${publicPosts}")
 
             for(p in publicPosts){
@@ -219,8 +248,8 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.logout -> {
                 val intent = Intent(this, MainActivity::class.java)
                 AuthenticationHelper.instance!!.signOut()
-                intent.putExtra("REFERER", "MainActivity")
-                startActivity(intent)
+//                intent.putExtra("REFERER", "SignOut")
+//                startActivity(intent)
                 return true
             }
             // for testing only. Remove this later
@@ -252,31 +281,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
-    private fun performLocalSearch(searchText: String) {
-        postRepository.getAllPublicPosts() // Ensure the latest public posts are fetched
-
-        postRepository.publicPosts.observe(this, Observer { posts ->
-            // Perform the local filtering
-            val searchLowerCase = searchText.lowercase()
-            val filteredPosts = posts.filter { post ->
-                post.address.lowercase().contains(searchLowerCase) ||
-                        post.authorEmail.lowercase().contains(searchLowerCase)
-                // Add more conditions here if needed
-            }
-
-            // Update UI based on filtered posts
-            if (filteredPosts.isEmpty()) {
-                Toast.makeText(this, "No matching posts found", Toast.LENGTH_SHORT).show()
-            } else {
-                postsToBeDisplayed.clear()
-                postsToBeDisplayed.addAll(filteredPosts)
-                postAdapter.notifyDataSetChanged()
-            }
-        })
-    }
-
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(tag, "on map ready")

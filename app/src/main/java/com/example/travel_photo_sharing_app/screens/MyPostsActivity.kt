@@ -22,9 +22,9 @@ class MyPostsActivity : MainActivity() {
     lateinit var adapter: MyPostAdapter
     private var datasource: MutableList<Post> = mutableListOf<Post>()
     private var loggedInUser: User? = null
-    private val postRepository = PostRepository()
-    private val userRepository = UserRepository()
-    override val tag = "Landlord"
+//    private val postRepository = PostRepository()
+//    private val userRepository = UserRepository()
+//    override val tag = "Landlord"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +88,7 @@ class MyPostsActivity : MainActivity() {
     private fun deletePost(position: Int) {
         val postToBeDeleted = datasource[position]
         Log.d(tag, "deleting post ${postToBeDeleted} by ${loggedInUser!!.email}")
-        postRepository.deletePost(postToBeDeleted.idFromDb!!, loggedInUser!!.email)
+        PostRepository.deletePost(postToBeDeleted.idFromDb!!, loggedInUser!!.email)
         datasource.removeAt(position)
         adapter.notifyDataSetChanged()
     }
@@ -102,8 +102,8 @@ class MyPostsActivity : MainActivity() {
             lifecycleScope.launch {
                 if(loggedInUser != null){
                     Log.d(tag, "getting my posts ${loggedInUser!!.createdPosts}")
-                    userRepository.getAllMyPosts(loggedInUser!!.createdPosts)
-                    userRepository.allMyPosts.observe(this@MyPostsActivity) {myPosts ->
+                    UserRepository.getAllMyPosts(loggedInUser!!.createdPosts)
+                    UserRepository.allMyPosts.observe(this@MyPostsActivity) {myPosts ->
                         Log.d(tag, "myPosts are ${myPosts}")
                         datasource.clear()
                         datasource.addAll(myPosts)

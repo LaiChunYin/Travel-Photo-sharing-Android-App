@@ -18,11 +18,12 @@ import com.example.travel_photo_sharing_app.databinding.ItemPostBinding
 import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
+import com.example.travel_photo_sharing_app.utils.formatTimeString
 import kotlinx.coroutines.launch
 
 class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?, private val showShortlistOnly: Boolean, context: Context) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-    private val userRepository = UserRepository()
-    private val postRepository = PostRepository()
+//    private val userRepository = UserRepository()
+//    private val postRepository = PostRepository()
     private val tag = "Post Adapter"
 
     inner class PostViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -35,6 +36,7 @@ class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?,
             binding.postDescriptionTextView.text = post.description
             binding.postAddressTextView.text = post.address
             binding.postId.text = post.idFromDb
+            binding.postCreatedAt.text = formatTimeString(post.createdAt)
 
             Log.d(tag, "post image is ${post.imageUrl}")
             val image = post.imageUrl ?: "default_image"
@@ -81,7 +83,7 @@ class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?,
             binding.savePostBtn.setOnClickListener {
                 (context as AppCompatActivity).lifecycleScope.launch {
                     val postId = post.idFromDb
-                    userRepository.savePost(loggedInUser!!.email, postId!!)
+                    UserRepository.savePost(loggedInUser!!.email, postId!!)
                     loggedInUser!!.savedPosts.add(postId!!)
                     Log.d(tag, "post id is ${postId}")
                     this@PostAdapter.notifyDataSetChanged()
@@ -92,7 +94,7 @@ class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?,
                 val postIdToBeRemoved = post.idFromDb
                 (context as AppCompatActivity).lifecycleScope.launch {
                     Log.d(tag,"removing saved post")
-                    userRepository.unSavePost(loggedInUser!!.email, postIdToBeRemoved!!)
+                    UserRepository.unSavePost(loggedInUser!!.email, postIdToBeRemoved!!)
                 }
                 for(i in 0..< loggedInUser!!.savedPosts.size){
                     Log.d(tag, "savedPosts id is ${loggedInUser!!.savedPosts[i]}, idFromDb is ${post.idFromDb}")

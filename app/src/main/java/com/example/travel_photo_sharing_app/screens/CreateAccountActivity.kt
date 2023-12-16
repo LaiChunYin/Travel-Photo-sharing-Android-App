@@ -49,6 +49,10 @@ class CreateAccountActivity : LoginActivity() {
                 Snackbar.make(binding.root, "Please enter a password and the confirm password", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+            if(password.length < 6) {
+                Snackbar.make(binding.root, "Password should be at least 6 characters", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
 
             if(userAlreadyExist) {
                 Snackbar.make(binding.root, "User already exist!", Snackbar.LENGTH_LONG).show()
@@ -64,7 +68,8 @@ class CreateAccountActivity : LoginActivity() {
             val newUser = User(email, password, username)
 
             lifecycleScope.launch {
-                authenticationHelper.signUp(newUser)
+//                authenticationHelper.signUp(newUser)
+                AuthenticationHelper.instance!!.signUp(newUser)
             }
         }
     }
