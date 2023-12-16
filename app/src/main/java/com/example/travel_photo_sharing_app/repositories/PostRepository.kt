@@ -3,10 +3,7 @@ package com.example.travel_photo_sharing_app.repositories
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.travel_photo_sharing_app.models.Post
-import com.example.travel_photo_sharing_app.models.User
-import com.example.travel_photo_sharing_app.utils.tag
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.firestore.EventListener

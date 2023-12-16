@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travel_photo_sharing_app.R
-import com.example.travel_photo_sharing_app.models.Post
 import com.example.travel_photo_sharing_app.models.User
-import com.example.travel_photo_sharing_app.utils.tag
 
 class FollowerFolloweeAdapter(
     private var userList: MutableList<User>,

@@ -8,7 +8,6 @@ import java.time.LocalDateTime
 class Post(
     var address: String,
     var type: String,
-//    val author: User,
     val authorEmail: String,
     var description: String,
     var visibleToGuest: Boolean,
@@ -34,17 +33,6 @@ class Post(
     {
         Log.d("Post", "using constructor ${this}")
     }
-    fun matchesQuery(query: String): Boolean {
-        val lowerCaseQuery = query.lowercase()
-
-        val matchFound = type.lowercase().contains(lowerCaseQuery) ||
-                description.lowercase().contains(lowerCaseQuery) ||
-                authorEmail.lowercase().contains(lowerCaseQuery) ||
-                address.lowercase().contains(lowerCaseQuery) ||
-                matchesNumericQuery(lowerCaseQuery)
-
-        return matchFound
-    }
 
     override fun toString(): String {
         return "Post(${idFromDb}) is $address, $type, $description, $imageUrl"
@@ -57,10 +45,7 @@ class Post(
 
         return true
     }
-    private fun matchesNumericQuery(query: String): Boolean {
-        val queryAsNumber = query.toIntOrNull()
-        return queryAsNumber != null
-    }
+
     fun toHashMap(): HashMap<String, Any?>{
         val result = HashMap<String, Any?>()
 

@@ -13,7 +13,6 @@ import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
-//import com.example.travel_photo_sharing_app.utils.postRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -22,8 +21,6 @@ class PostDetailActivity : AppCompatActivity() {
     private lateinit var post: Post
     private lateinit var postId: String
     private var loggedInUser: User? = null
-//    private val userRepository = UserRepository()
-//    private val postRepository = PostRepository()
     private val tag = "Post detail"
 
     override fun onCreate(savedInstanceState: Bundle?) {

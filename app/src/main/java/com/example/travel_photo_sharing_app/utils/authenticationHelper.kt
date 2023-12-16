@@ -20,7 +20,6 @@ class AuthenticationHelper(val context: Context) {
     var loggedInUser: MutableLiveData<User?> = MutableLiveData<User?>(null)
     val tag: String = "AuthenHelper"
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-//    val userRepository: UserRepository = UserRepository()
     lateinit var snapshotListener: ListenerRegistration
 
     companion object {

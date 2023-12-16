@@ -22,16 +22,11 @@ import com.example.travel_photo_sharing_app.screens.FollowerFolloweeActivity
 import com.example.travel_photo_sharing_app.screens.LoginActivity
 import com.example.travel_photo_sharing_app.screens.SavedPostsActivity
 import com.example.travel_photo_sharing_app.screens.MyPostsActivity
-import com.example.travel_photo_sharing_app.screens.PostDetailActivity
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.MapHelper
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 
 open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -45,8 +40,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var allPublicPosts: MutableLiveData<List<Post>>
     private var loggedInUser: User? = null
     open val tag = "Main"
-//    private val postRepository = PostRepository()
-//    private val markerPostMap = HashMap<Marker, Post>()
     private lateinit var mapHelper : MapHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -177,8 +170,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             postAdapter.loggedInUser = loggedInUser
         }
         allPosts.clear()
-//        allPosts = initializePosts(this)
-//        initializePosts(this)
         PostRepository.publicPosts.observe(this){ publicPosts ->
             Log.d(tag, "in observer ${publicPosts}")
 
@@ -248,32 +239,6 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.logout -> {
                 val intent = Intent(this, MainActivity::class.java)
                 AuthenticationHelper.instance!!.signOut()
-//                intent.putExtra("REFERER", "SignOut")
-//                startActivity(intent)
-                return true
-            }
-            // for testing only. Remove this later
-            R.id.delete_users -> {
-                this.sharedPreferences = getSharedPreferences("USERS", MODE_PRIVATE)
-                this.prefEditor = this.sharedPreferences.edit()
-
-                prefEditor.clear()
-                prefEditor.apply()
-
-                // logs out the user after all users are deleted
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("USER", "")
-                intent.putExtra("REFERER", "Toolbar")
-                startActivity(intent)
-                return true
-            }
-            R.id.delete_posts -> {
-                this.sharedPreferences = getSharedPreferences("POSTS", MODE_PRIVATE)
-                this.prefEditor = this.sharedPreferences.edit()
-
-                prefEditor.clear()
-                prefEditor.apply()
-                Snackbar.make(findViewById(R.id.root_layout), "post erased!", Snackbar.LENGTH_LONG).show()
                 return true
             }
             else -> {
@@ -301,53 +266,4 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         uiSettings.isCompassEnabled = true
 
     }
-
-//    private fun markerClickedHandler(marker: Marker): Boolean {
-//        Log.d(tag, "marker clicked: ${marker}, ${markerPostMap}")
-//        // popup post details
-//        val post = markerPostMap[marker]
-//        Log.d(tag, "marketPostMap post: ${post}")
-//        if(loggedInUser != null){
-//            Log.i(tag, "${loggedInUser} logged in")
-//            val intent = Intent(this@MainActivity, PostDetailActivity::class.java)
-//            intent.putExtra("POST", post!!.idFromDb)
-//            this@MainActivity.startActivity(intent)
-//        }
-//        else {
-//            Log.i(tag, "no one logged in")
-//            val intent = Intent(this, LoginActivity::class.java)
-//            intent.putExtra("REFERER", "MainActivity")
-//            this@MainActivity.startActivity(intent)
-//        }
-//        return false
-//    }
-//
-//    private fun removeAllMarkersOnMap(){
-//        Log.d(tag, "removing markers")
-//        for((marker, Post)in markerPostMap){
-//            Log.d(tag, "removing marker ${marker}")
-//            marker.remove()
-//        }
-//    }
-//    private fun addPostsToMap(posts: MutableList<Post>){
-//        removeAllMarkersOnMap()
-//        Log.d(tag, "adding posts to map")
-//        var cameraSet = false  // set the camera position to the first post by default
-//
-//        for(post in posts){
-//            val location = LatLng(post.latitude, post.longitude)
-//            Log.d(tag, "in addPostsToMap ${post}, ${location}")
-//
-//            if(!cameraSet){
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-//                cameraSet = true
-//            }
-//
-//            val markerOption = MarkerOptions().position(location)
-//            markerOption.title(post.address)
-//            val marker: Marker = mMap.addMarker(markerOption)!!
-//            markerPostMap[marker] = post
-//            Log.d(tag, "Marker set is ${markerOption}")
-//        }
-//    }
 }

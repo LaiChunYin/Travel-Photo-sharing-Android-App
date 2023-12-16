@@ -1,6 +1,5 @@
 package com.example.travel_photo_sharing_app.screens
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
@@ -22,8 +21,6 @@ class SavedPostsActivity : MainActivity() {
     override val tag = "Shortlist"
     private lateinit var adapter: PostAdapter
     private val savedPosts :MutableList<Post> = mutableListOf()
-//    private val postRepository = PostRepository()
-//    private val userRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

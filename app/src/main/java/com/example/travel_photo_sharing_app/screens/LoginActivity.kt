@@ -7,26 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.example.travel_photo_sharing_app.databinding.ActivityLoginBinding
-import com.example.travel_photo_sharing_app.MainActivity
-import com.example.travel_photo_sharing_app.models.User
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 open class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var prefEditor: SharedPreferences.Editor
     open val tag = "Login"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // configure shared preferences
-        this.sharedPreferences = getSharedPreferences("USERS", MODE_PRIVATE)
-        this.prefEditor = this.sharedPreferences.edit()
 
         val isFromMain = this@LoginActivity.intent.extras != null &&
                         this@LoginActivity.intent.extras!!.containsKey("REFERER") &&

@@ -15,15 +15,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.travel_photo_sharing_app.databinding.ItemPostBinding
-import com.example.travel_photo_sharing_app.repositories.PostRepository
 import com.example.travel_photo_sharing_app.repositories.UserRepository
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
 import com.example.travel_photo_sharing_app.utils.formatTimeString
 import kotlinx.coroutines.launch
 
 class PostAdapter(private var posts: MutableList<Post>, var loggedInUser: User?, private val showShortlistOnly: Boolean, context: Context) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-//    private val userRepository = UserRepository()
-//    private val postRepository = PostRepository()
     private val tag = "Post Adapter"
 
     inner class PostViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {

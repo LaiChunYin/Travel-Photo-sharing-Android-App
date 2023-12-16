@@ -1,7 +1,6 @@
 package com.example.travel_photo_sharing_app.screens
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -9,7 +8,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.lifecycleScope
 import com.example.travel_photo_sharing_app.databinding.ActivityAddPostBinding
@@ -20,7 +18,6 @@ import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
 import com.example.travel_photo_sharing_app.utils.CameraImageHelper
 import com.example.travel_photo_sharing_app.utils.LocationHelper
 import com.example.travel_photo_sharing_app.utils.getCategorySpinnerList
-//import com.example.travel_photo_sharing_app.utils.postRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -29,15 +26,12 @@ class AddPostActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddPostBinding
     private var loggedInUser: User? = null
-//    private var postRepository = PostRepository()
     private lateinit var locationHelper: LocationHelper
 
     val tag = "Add Post"
     private val TAKE_PHOTO = 1
     private var base64UploadedImg: String? = null
     private var selectedPost: Post? = null
-
-    var savedPosts: MutableList<Post> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +89,7 @@ class AddPostActivity : AppCompatActivity() {
         this.binding.btnUploadPhoto.setOnClickListener {
 //            val intent = Intent(this, CameraActivity::class.java)
             Log.d(tag, "clicked upload btn")
-            if (hasPermissions() == false) {
+            if (CameraImageHelper.hasCameraPermissions(applicationContext) == false) {
                 ActivityCompat.requestPermissions(this, CameraActivity.CAMERAX_PERMISSIONS, 0)
             }
             else{
@@ -240,15 +234,5 @@ class AddPostActivity : AppCompatActivity() {
         Snackbar.make(binding.addPostParentLayout, "Data Saved", Snackbar.LENGTH_LONG).show()
         finish()
     }
-
-    private fun hasPermissions():Boolean {
-        return CameraActivity.CAMERAX_PERMISSIONS.all {
-            ContextCompat.checkSelfPermission(
-                applicationContext,
-                it
-            ) == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
 
 }

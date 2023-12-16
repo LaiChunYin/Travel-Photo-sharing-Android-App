@@ -22,10 +22,6 @@ class MyPostsActivity : MainActivity() {
     lateinit var adapter: MyPostAdapter
     private var datasource: MutableList<Post> = mutableListOf<Post>()
     private var loggedInUser: User? = null
-//    private val postRepository = PostRepository()
-//    private val userRepository = UserRepository()
-//    override val tag = "Landlord"
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

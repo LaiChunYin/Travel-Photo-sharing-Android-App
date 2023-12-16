@@ -17,13 +17,8 @@ import kotlinx.coroutines.launch
 
 class FollowerFolloweeActivity : MainActivity() {
     private lateinit var binding: ActivityFollowerFolloweeBinding
-    private lateinit var followerFolloweeAdapter: FollowerFolloweeAdapter
-    private var usersToBeDisplayed: MutableList<User> = mutableListOf()
-    private var allFollowers: MutableList<User> = mutableListOf()
-    private var allFollowees: MutableList<User> = mutableListOf()
     private var followers: MutableList<User> = mutableListOf()
     private var followees: MutableList<User> = mutableListOf()
-//    val userRepository = UserRepository()
     private var loggedInUser: User? = null
     private lateinit var followerAdapter: FollowerFolloweeAdapter
     private lateinit var followeeAdapter: FollowerFolloweeAdapter
