@@ -24,6 +24,7 @@ import com.example.travel_photo_sharing_app.screens.SavedPostsActivity
 import com.example.travel_photo_sharing_app.screens.MyPostsActivity
 import com.example.travel_photo_sharing_app.screens.PostDetailActivity
 import com.example.travel_photo_sharing_app.utils.AuthenticationHelper
+import com.example.travel_photo_sharing_app.utils.MapHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -34,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 
 open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap? = null
     private lateinit var binding: ActivityMainBinding
     private lateinit var postAdapter: PostAdapter
     private lateinit var sharedPreferences: SharedPreferences
@@ -44,8 +45,9 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var allPublicPosts: MutableLiveData<List<Post>>
     private var loggedInUser: User? = null
     open val tag = "Main"
-    private val postRepository = PostRepository()
-    private val markerPostMap = HashMap<Marker, Post>()
+//    private val postRepository = PostRepository()
+//    private val markerPostMap = HashMap<Marker, Post>()
+    private lateinit var mapHelper : MapHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +136,7 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         liveDataPosts.observe(this, Observer { posts ->
             postsToBeDisplayed.clear()
             postsToBeDisplayed.addAll(posts)
-            addPostsToMap(postsToBeDisplayed)
+            mapHelper.addPostsToMap(postsToBeDisplayed)
             postAdapter.notifyDataSetChanged()
         })
     }
@@ -158,7 +160,9 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             postsToBeDisplayed.clear()
             postsToBeDisplayed.addAll(publicPosts)
             postAdapter.notifyDataSetChanged()
-            addPostsToMap(postsToBeDisplayed)
+            if(mMap != null){
+                mapHelper.addPostsToMap(postsToBeDisplayed)
+            }
         }
 
         super.onResume()
@@ -277,15 +281,16 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(tag, "on map ready")
         mMap = googleMap
+        mapHelper = MapHelper(this@MainActivity, mMap!!)
         Log.d(tag, "google map ${postsToBeDisplayed}")
 
-        mMap.setOnInfoWindowClickListener {  marker ->
+        mMap!!.setOnInfoWindowClickListener {  marker ->
                 Log.d(tag, "here info window clicked")
-                markerClickedHandler(marker)
+                mapHelper.markerClickedHandler(marker, loggedInUser)
         }
 
-        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
-        mMap.isTrafficEnabled = true
+        mMap!!.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        mMap!!.isTrafficEnabled = true
 
         val uiSettings = googleMap.uiSettings
         uiSettings.isZoomControlsEnabled = true
@@ -293,52 +298,52 @@ open class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun markerClickedHandler(marker: Marker): Boolean {
-        Log.d(tag, "marker clicked: ${marker}, ${markerPostMap}")
-        // popup post details
-        val post = markerPostMap[marker]
-        Log.d(tag, "marketPostMap post: ${post}")
-        if(loggedInUser != null){
-            Log.i(tag, "${loggedInUser} logged in")
-            val intent = Intent(this@MainActivity, PostDetailActivity::class.java)
-            intent.putExtra("POST", post!!.idFromDb)
-            this@MainActivity.startActivity(intent)
-        }
-        else {
-            Log.i(tag, "no one logged in")
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.putExtra("REFERER", "MainActivity")
-            this@MainActivity.startActivity(intent)
-        }
-        return false
-    }
-
-    private fun removeAllMarkersOnMap(){
-        Log.d(tag, "removing markers")
-        for((marker, Post)in markerPostMap){
-            Log.d(tag, "removing marker ${marker}")
-            marker.remove()
-        }
-    }
-    private fun addPostsToMap(posts: MutableList<Post>){
-        removeAllMarkersOnMap()
-        Log.d(tag, "adding posts to map")
-        var cameraSet = false  // set the camera position to the first post by default
-
-        for(post in posts){
-            val location = LatLng(post.latitude, post.longitude)
-            Log.d(tag, "in addPostsToMap ${post}, ${location}")
-
-            if(!cameraSet){
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-                cameraSet = true
-            }
-
-            val markerOption = MarkerOptions().position(location)
-            markerOption.title(post.address)
-            val marker: Marker = mMap.addMarker(markerOption)!!
-            markerPostMap[marker] = post
-            Log.d(tag, "Marker set is ${markerOption}")
-        }
-    }
+//    private fun markerClickedHandler(marker: Marker): Boolean {
+//        Log.d(tag, "marker clicked: ${marker}, ${markerPostMap}")
+//        // popup post details
+//        val post = markerPostMap[marker]
+//        Log.d(tag, "marketPostMap post: ${post}")
+//        if(loggedInUser != null){
+//            Log.i(tag, "${loggedInUser} logged in")
+//            val intent = Intent(this@MainActivity, PostDetailActivity::class.java)
+//            intent.putExtra("POST", post!!.idFromDb)
+//            this@MainActivity.startActivity(intent)
+//        }
+//        else {
+//            Log.i(tag, "no one logged in")
+//            val intent = Intent(this, LoginActivity::class.java)
+//            intent.putExtra("REFERER", "MainActivity")
+//            this@MainActivity.startActivity(intent)
+//        }
+//        return false
+//    }
+//
+//    private fun removeAllMarkersOnMap(){
+//        Log.d(tag, "removing markers")
+//        for((marker, Post)in markerPostMap){
+//            Log.d(tag, "removing marker ${marker}")
+//            marker.remove()
+//        }
+//    }
+//    private fun addPostsToMap(posts: MutableList<Post>){
+//        removeAllMarkersOnMap()
+//        Log.d(tag, "adding posts to map")
+//        var cameraSet = false  // set the camera position to the first post by default
+//
+//        for(post in posts){
+//            val location = LatLng(post.latitude, post.longitude)
+//            Log.d(tag, "in addPostsToMap ${post}, ${location}")
+//
+//            if(!cameraSet){
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+//                cameraSet = true
+//            }
+//
+//            val markerOption = MarkerOptions().position(location)
+//            markerOption.title(post.address)
+//            val marker: Marker = mMap.addMarker(markerOption)!!
+//            markerPostMap[marker] = post
+//            Log.d(tag, "Marker set is ${markerOption}")
+//        }
+//    }
 }
