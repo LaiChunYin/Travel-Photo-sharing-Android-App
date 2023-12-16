@@ -23,7 +23,10 @@ class CameraImageHelper {
             val decodedImg: ByteArray = Base64.decode(base64, Base64.DEFAULT)
             return BitmapFactory.decodeByteArray(decodedImg, 0, decodedImg.size)
         }
-        fun bitmapToBase64(bitmap: Bitmap): String {
+        fun bitmapToBase64(bitmap: Bitmap?): String? {
+            if(bitmap == null){
+                return null
+            }
             val byteOutStream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteOutStream)
             return Base64.encodeToString(byteOutStream.toByteArray(), Base64.DEFAULT)

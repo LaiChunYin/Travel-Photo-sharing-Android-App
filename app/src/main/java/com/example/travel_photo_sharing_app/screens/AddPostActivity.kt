@@ -151,7 +151,7 @@ class AddPostActivity : AppCompatActivity() {
         if(userCoordinates){
             try{
                 latitude = binding.latitude.text.toString().toDouble()
-                longitude = binding.latitude.text.toString().toDouble()
+                longitude = binding.longitude.text.toString().toDouble()
                 Log.d(tag, "using coors ${latitude}, ${longitude}")
                 address = locationHelper.coordinatesToAddress(latitude, longitude)
                 Log.d(tag, "address ${address}")
@@ -181,7 +181,8 @@ class AddPostActivity : AppCompatActivity() {
         var authorEmail: String? = loggedInUser!!.email
         var desc: String? = this.binding.description.text.toString()
         var visibleToGuest: Boolean? = this.binding.visibleToGuest.isChecked
-        var base64Img: String? = CameraImageHelper.bitmapToBase64(this.binding.imageTaken.drawable.toBitmap())
+        val imageTaken = this.binding.imageTaken.drawable ?: null
+        var base64Img: String? = CameraImageHelper.bitmapToBase64(imageTaken?.toBitmap())
         Log.d(tag, "img in savedata, ${base64Img}")
         Log.d(tag, "spinner value is ${type}")
         // error check
@@ -202,6 +203,10 @@ class AddPostActivity : AppCompatActivity() {
         if (desc.isNullOrEmpty()) {
             this.binding.description.setError("Description cannot be empty")
             hasEmptyField = true
+        }
+        if (base64Img.isNullOrEmpty()) {
+            Snackbar.make(binding.addPostParentLayout, "Please take an image", Snackbar.LENGTH_LONG).show()
+            return
         }
         if(hasEmptyField){
             Snackbar.make(binding.addPostParentLayout, "All fields are required.", Snackbar.LENGTH_LONG).show()
